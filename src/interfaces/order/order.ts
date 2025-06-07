@@ -4,27 +4,24 @@ import type IShippingAddress from "./shippingAddress.ts";
 
 
 
-// Đơn hàng chính
 export default interface IOrder {
-    userId: Types.ObjectId; // Người đặt hàng
-
-    items: IOrderItem[]; // Danh sách sản phẩm
-    shippingAddress: IShippingAddress;
-
-    paymentMethod: 'cod' | 'credit_card' | 'paypal' | 'momo'; // Phương thức thanh toán
-    isPaid: boolean;
-    paidAt?: Date;
-
-    isDelivered: boolean;
-    deliveredAt?: Date;
-
-    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-
+    userId: Types.ObjectId; // ordered user
+    items: IOrderItem[]; // products list
     totalPrice: number;
-    shippingFee: number;
     tax: number;
     discountCode?: string
 
+    // payment infor
+    paymentMethod: 'cod' | 'credit_card' | 'paypal' | 'momo';
+    isPaid: boolean;
+    paidAt?: Date;
+
+    // Shipping infor
+    shippingAddress: IShippingAddress;
+    isDelivered: boolean;
+    deliveredAt?: Date;
+    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+    shippingFee: number;
     trackingNumber?: string
     carrier?: string
 }

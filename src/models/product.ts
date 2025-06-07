@@ -1,7 +1,6 @@
-import type { IProductModel } from '../interfaces/product.js';
+import type { IProductModel } from '../interfaces/product/index.ts';
 
 import mongoose, { Schema } from 'mongoose';
-
 
 const ProductSchema: Schema = new Schema({
     category: { type: String, trim: true },

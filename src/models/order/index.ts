@@ -1,5 +1,6 @@
-import type IOrderModel from '../../interfaces/order/index.ts';
+import type { IOrderMethods, IOrderModel } from '../../interfaces/order/index.ts';
 import type IOrderItem from '../../interfaces/order/orderItem.ts';
+import type IOrder from '../../interfaces/order/order.ts';
 
 import mongoose, { Schema } from 'mongoose';
 import OrderItemSchema from './orderItem.js';
@@ -8,64 +9,26 @@ import ShippingAddressSchema from './shippingAddress.js';
 
 
 
-const OrderSchema = new Schema<IOrderModel>({
-    userId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
-    items: {
-        type: [OrderItemSchema],
-        required: true,
-        validate: [
-            (items: IOrderItem[]) => items.length > 0,
-            'Order must have at least one item'
-        ]
-    },
-    shippingAddress: {
-        type: ShippingAddressSchema,
-        required: true
-    },
-    paymentMethod: {
-        type: String,
-        required: true,
-        enum: ['cod', 'credit_card', 'paypal', 'momo']
-    },
-    isPaid: {
-        type: Boolean,
-        default: false
-    },
-    paidAt: Date,
-    isDelivered: {
-        type: Boolean,
-        default: false
-    },
-    deliveredAt: Date,
-    status: {
-        type: String,
-        required: true,
-        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
-        default: 'pending'
-    },
-    totalPrice: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    shippingFee: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    tax: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    discountCode: String,
+const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
+    userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    items: { type: [OrderItemSchema], required: true, validate: [(items: IOrderItem[]) => items.length > 0, 'Order must have at least one item'] },
+    totalPrice: { type: Number, required: true, min: 0 },
+    tax: { type: Number, required: true, min: 0 },
+    discountCode: { type: String },
 
-    trackingNumber: String,
-    carrier: String
+    // payment infor
+    paymentMethod: { type: String, required: true, enum: ['cod', 'credit_card', 'paypal', 'momo'] },
+    isPaid: { type: Boolean, default: false },
+    paidAt: { type: Date },
+
+    // Shipping infor
+    shippingAddress: { type: ShippingAddressSchema, required: true },
+    isDelivered: { type: Boolean, default: false },
+    deliveredAt: { type: Date },
+    status: { type: String, required: true, enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
+    shippingFee: { type: Number, required: true, min: 0 },
+    trackingNumber: { type: String },
+    carrier: { type: String },
 }, {
     timestamps: true,
     toJSON: {
@@ -76,34 +39,34 @@ const OrderSchema = new Schema<IOrderModel>({
             delete ret.__v;
             return ret;
         }
-    }
+    },
+
+
+
+
+
+
+    // Add instance methods
+    methods: {
+        getTotalAmount(): number {
+            return this.totalPrice + this.shippingFee + this.tax;
+        },
+        canBeCancelled(): boolean {
+            return ['pending', 'processing'].includes(this.status);
+        },
+        canBeModified(): boolean {
+            return this.status === 'pending';
+        }
+    },
 });
 
 
-
-
-
-OrderSchema.methods.getTotalAmount = function (): number {
-    return this.totalPrice + this.shippingFee + this.tax;
-};
-
-OrderSchema.methods.canBeCancelled = function (): boolean {
-    return ['pending', 'processing'].includes(this.status);
-};
-
-OrderSchema.methods.canBeModified = function (): boolean {
-    return this.status === 'pending';
-};
-
-// Add useful static methods
-OrderSchema.statics.findByUser = function (userId: string) {
-    return this.find({ userId }).sort({ createdAt: -1 });
-};
 
 // Add indexes for better query performance
 OrderSchema.index({ userId: 1, createdAt: -1 });
 OrderSchema.index({ status: 1 });
 OrderSchema.index({ trackingNumber: 1 });
 
-const Order = mongoose.model<IOrderModel>('Order', OrderSchema);
+
+const Order = mongoose.model('Order', OrderSchema);
 export default Order;

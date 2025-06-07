@@ -8,4 +8,4 @@ export interface IUserMethods {
     fullName(): string;
 }
 
-export interface IUserModel extends Model<IUser, {}, IUserMethods> { }
+export interface IUserModel extends Model<IUser> { }

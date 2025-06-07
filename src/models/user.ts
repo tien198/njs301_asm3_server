@@ -1,24 +1,21 @@
-import mongoose, { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import bcrypt from 'mongoose';
-import type { IUserMethods, IUserModel } from '../interfaces/user/index.ts';
 import type IUser from '../interfaces/user/user.ts';
+import type { IUserMethods, IUserModel } from '../interfaces/user/index.ts';
 
 
 
-const UserSchema: Schema = new Schema<IUser, IUserModel, IUserMethods>({
-    email: {
-        type: String, required: true, unique: true, trim: true, lowercase: true
-    },
+const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
+    email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     password: {
-        type: String, select: false // This ensures the password isn't returned in queries by default
+        type: String, select: false
         // To include the password field in a query, use `.select('+password')` like this:
         // User.findOne({ email: 'example@example.com' }).select('+password')
     },
     name: { type: String, trim: true },
-    phone: {
-        type: Schema.Types.String, // Allows both string and number
-    },
-    avatarUrl: { type: String }
+    phone: { type: Schema.Types.String },
+    avatarUrl: { type: String },
+    role: { type: String, enum: ['admin', 'user'], default: 'user' }
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps
     toJSON: {
@@ -31,6 +28,11 @@ const UserSchema: Schema = new Schema<IUser, IUserModel, IUserMethods>({
             return ret;
         }
     },
+
+
+
+
+
 
     // Add instance methods
     methods: {
@@ -50,8 +52,6 @@ const UserSchema: Schema = new Schema<IUser, IUserModel, IUserMethods>({
     }
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = model('User', UserSchema);
 
 export default User;
-
-

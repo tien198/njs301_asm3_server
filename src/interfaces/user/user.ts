@@ -4,4 +4,5 @@ export default interface IUser {
     name?: string;
     phone?: string;
     avatarUrl?: string
+    role?: 'admin' | 'user'
 }

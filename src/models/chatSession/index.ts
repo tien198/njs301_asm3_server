@@ -1,9 +1,9 @@
-import mongoose, { Schema, Types, type HydratedDocument } from "mongoose";
 import type IChatSession from "../../interfaces/chatSession/chatSession.ts";
-import type IChatSessionModel from "../../interfaces/chatSession/index.ts";
-import type IChatSessionMethod from "../../interfaces/chatSession/chatSessionMethod.ts";
 import type IUser from "../../interfaces/user/user.ts";
 import type Message from "../../interfaces/chatSession/message.ts";
+import type { IChatSessionMethod, IChatSessionModel } from "../../interfaces/chatSession/index.ts";
+
+import mongoose, { Schema, Types, type HydratedDocument } from "mongoose";
 import MessageModel from "./message.ts";
 
 const ChatSessionSchema = new Schema<IChatSession, IChatSessionModel, IChatSessionMethod>({

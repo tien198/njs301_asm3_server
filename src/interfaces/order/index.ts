@@ -1,5 +1,9 @@
+import type { Model } from "mongoose";
 import type IOrder from "./order.ts";
+import type IOrderItem from './orderItem.ts'
+import type IShippingAddress from "./shippingAddress.ts";
 
+export type { IOrder, IOrderItem, IShippingAddress }
 
 // Add useful instance methods
 export interface IOrderMethods {
@@ -8,4 +12,4 @@ export interface IOrderMethods {
     canBeModified(): boolean;
 }
 
-export default interface IOrderModel extends IOrder, IOrderMethods { }
+export interface IOrderModel extends Model<IOrder> { }
