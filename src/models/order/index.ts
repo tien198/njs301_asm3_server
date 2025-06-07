@@ -1,63 +1,12 @@
+import type IOrderModel from '../../interfaces/order/index.ts';
+import type IOrderItem from '../../interfaces/order/orderItem.ts';
+
 import mongoose, { Schema } from 'mongoose';
-import type { IOrderItem, IOrderModel, IShippingAddress } from '../interfaces/order.js';
+import OrderItemSchema from './orderItem.js';
+import ShippingAddressSchema from './shippingAddress.js';
 
-const OrderItemSchema = new Schema<IOrderItem>({
-    productId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'Product'
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: Number,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true,
-        min: 1
-    },
-    image: String
-});
 
-const ShippingAddressSchema = new Schema<IShippingAddress>({
-    fullName: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    phone: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    address: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    city: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    district: {
-        type: String,
-        trim: true
-    },
-    postalCode: {
-        type: String,
-        trim: true
-    },
-    country: {
-        type: String,
-        trim: true,
-        default: 'Vietnam'
-    }
-});
+
 
 const OrderSchema = new Schema<IOrderModel>({
     userId: {
@@ -114,7 +63,7 @@ const OrderSchema = new Schema<IOrderModel>({
         min: 0
     },
     discountCode: String,
-    
+
     trackingNumber: String,
     carrier: String
 }, {
