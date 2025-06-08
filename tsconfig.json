@@ -1,22 +1,24 @@
 {
     "compilerOptions": {
-        "target": "es2022",
+        "target": "ES2023",
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "module": "node16",
-        "moduleResolution": "node16",
+        "module": "commonjs",
+        "moduleResolution": "node",
         "rootDir": "src",
         "outDir": "dist",
         "lib": [
             "es2022",
         ],
         "strict": true,
-        ///
-        "allowImportingTsExtensions": true,
-        "noEmit": true,
-        "verbatimModuleSyntax": true,
+        "declaration": true,
+        //
+        // "allowImportingTsExtensions": true,
+        // "noEmit": true,
+        // "verbatimModuleSyntax": true,
         "noEmitOnError": true,
-        // "erasableSyntaxOnly": true
+        // "erasableSyntaxOnly": true,
+        "removeComments": true,
         "plugins": [],
         "forceConsistentCasingInFileNames": true
     },

@@ -6,7 +6,6 @@ import MongoStore from "connect-mongodb-session";
 
 const MongoDBStore = MongoStore(session)
 
-console.log(process.env.MONGO_URI)
 const store = new MongoDBStore({
     uri: process.env.MONGO_URI!,
     collection: 'sessions'

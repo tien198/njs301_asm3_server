@@ -4,7 +4,7 @@ import type Message from "../../interfaces/chatSession/message.ts";
 import type { IChatSessionMethod, IChatSessionModel } from "../../interfaces/chatSession/index.ts";
 
 import mongoose, { Schema, Types, type HydratedDocument } from "mongoose";
-import MessageModel from "./message.ts";
+import MessageModel from "./message.js";
 
 const ChatSessionSchema = new Schema<IChatSession, IChatSessionModel, IChatSessionMethod>({
     isActive: { type: Boolean, required: true },

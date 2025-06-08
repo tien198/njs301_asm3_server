@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import ErrorRes from '../models/errorRes.ts';
+import ErrorRes from '../models/errorRes.js';
 
 
 export function isAuthMw(req: Request, res: Response, next: NextFunction) {

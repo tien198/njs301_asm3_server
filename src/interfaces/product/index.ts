@@ -1,5 +1,5 @@
 import type { Model } from "mongoose";
-import type IProduct from "./product.ts";
+import type IProduct from "./product.js";
 
 
 export type { IProduct }

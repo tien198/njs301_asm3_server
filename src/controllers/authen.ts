@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
-import User from '../models/user.ts';
-import ErrorRes from '../models/errorRes.ts';
-import { createErrorRes } from '../ultilities/exValidator/createErrorRes.ts';
+import User from '../models/user.js';
+import ErrorRes from '../models/errorRes.js';
+import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 
 
 async function login(req: Request, res: Response, next: NextFunction) {
