@@ -4,9 +4,9 @@ import type IUser from '../interfaces/user/user.ts';
 import type { IUserMethods, IUserModel } from '../interfaces/user/index.ts';
 
 
-type User = Required<IUser>
+type UserRaw = Required<IUser>
 
-const UserSchema = new Schema<User, IUserModel, IUserMethods>({
+const UserSchema = new Schema<UserRaw, IUserModel, IUserMethods>({
     email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     password: {
         type: String, select: false, required: true
@@ -31,10 +31,6 @@ const UserSchema = new Schema<User, IUserModel, IUserMethods>({
             return ret;
         }
     },
-
-
-
-
 
 
     // Add instance methods

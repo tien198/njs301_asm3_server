@@ -27,12 +27,11 @@ export const isValidSignupMw = [
     body('confirmPassword')
         .trim()
         .notEmpty().withMessage('Please enter confirm password').bail()
-        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long').bail()
         .custom((val, meta) => {
-            if (val !== meta.req.body.password) {
+            if (val !== meta.req.body.password)
                 throw new Error('Password confirmation does not match password');
-            }
-        })
+            return true
+        }).bail()
 ];
 
 export const isValidResetPasswordMw = [

@@ -16,7 +16,8 @@
             "runtimeArgs": [
                 "--experimental-transform-types",
                 // "--trace-warnings"
-            ]
+            ],
+            "console": "integratedTerminal"
         }
     ]
 }

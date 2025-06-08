@@ -71,7 +71,9 @@ async function signup(req: Request, res: Response, next: NextFunction) {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const saltLength = Number(process.env.SALT_LENGTH) || 10
+
+        const hashedPassword = bcrypt.hashSync(password, saltLength);
 
         // Create new user
         user = await User.create({ email, password: hashedPassword, name });
