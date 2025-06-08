@@ -1,14 +1,15 @@
 import { model, Schema } from 'mongoose';
-import bcrypt from 'mongoose';
+import bcrypt from 'bcryptjs';
 import type IUser from '../interfaces/user/user.ts';
 import type { IUserMethods, IUserModel } from '../interfaces/user/index.ts';
 
 
+type User = Required<IUser>
 
-const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
+const UserSchema = new Schema<User, IUserModel, IUserMethods>({
     email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     password: {
-        type: String, select: false
+        type: String, select: false, required: true
         // To include the password field in a query, use `.select('+password')` like this:
         // User.findOne({ email: 'example@example.com' }).select('+password')
     },
@@ -25,6 +26,8 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
             delete ret._id;
             delete ret.__v;
             delete ret.password;
+            delete ret.phone;
+            delete ret.avatarUrl;
             return ret;
         }
     },
@@ -38,9 +41,7 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
     methods: {
         comparePassword: async function (candidatePassword: string): Promise<boolean> {
             try {
-                // Note: In a real application, you should use bcrypt.compare()
-                // This is just a simple example
-                return this.password === candidatePassword;
+                return await bcrypt.compare(candidatePassword, this.password);
             } catch (error) {
                 throw new Error('Error comparing passwords');
             }
