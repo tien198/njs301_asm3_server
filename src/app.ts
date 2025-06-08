@@ -6,15 +6,26 @@ import helmet from 'helmet'
 import dotenv from 'dotenv'
 dotenv.config()
 import authenRouter from './routers/authen.ts';
+import sessionMw from './middlewares/sessionMw.ts';
 
 
 
 const app = express()
 
+// library middlewares
 app.use(helmet())
 
+// custom middlewares
+app.use(sessionMw())
+
+// routers
 app.use('/api/auth', authenRouter);
 
+app.get('/', (req, res) => {
+    res.send('Hello World')
+})
+
+// error handler
 app.use((error: ErrorRes, req: Request, res: Response, next: NextFunction) => {
     console.log(error)
     res.status(error.status || 500).json({
@@ -27,15 +38,12 @@ app.use((error: ErrorRes, req: Request, res: Response, next: NextFunction) => {
 import mongoose from 'mongoose';
 import User from './models/user.ts';
 import bcrypt from 'bcryptjs';
-
-const mongoUri = process.env.MONGO_URI
-if (!mongoUri)
-    throw new Error('MONGO_URI is not set')
-
-const saltLength = Number(process.env.SALT_LENGTH) || 10
+import { envValidate } from './ultilities/envValidate.ts';
 
 
-await mongoose.connect(mongoUri)
+envValidate()
+
+await mongoose.connect(process.env.MONGO_URI!)
 
 app.listen(5000, () => console.log('Server is running on port 5000'))
 
@@ -43,7 +51,7 @@ const user = await User.findOne({ email: 'admin@gmail.com' })
 if (!user) {
     await User.create({
         email: 'admin@gmail.com',
-        password: bcrypt.hashSync('123456', saltLength),
+        password: bcrypt.hashSync('123456', Number(process.env.SALT_LENGTH) || 10),
         name: 'Admin'
     })
 }

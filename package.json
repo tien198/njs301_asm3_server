@@ -11,17 +11,19 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/connect-mongodb-session": "^2.4.8",
     "@types/express": "^5.0.1",
-    "@types/jsonwebtoken": "^9.0.9",
     "dotenv": "^16.5.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/express-session": "^1.18.2",
     "bcryptjs": "^3.0.2",
+    "connect-mongodb-session": "^5.0.0",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1"
   }
 }

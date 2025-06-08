@@ -1,13 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import User from '../models/user.ts';
 import ErrorRes from '../models/errorRes.ts';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.ts';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-
 
 
 async function login(req: Request, res: Response, next: NextFunction) {
@@ -31,21 +27,12 @@ async function login(req: Request, res: Response, next: NextFunction) {
             throw new ErrorRes('login failed', 401, { message: "User or password is incorrect" })
         }
 
-        // Generate JWT token
-        const token = jwt.sign(
-            user.toJSON(),
-            JWT_SECRET,
-            { expiresIn: '24h' }
-        );
+        // Set session
+        req.session.user = user.toJSON()
+        req.session.save()
 
         res.json({
-            token,
-            user: {
-                id: user._id,
-                email: user.email,
-                name: user.name,
-                role: user.role
-            }
+            user: req.session.user
         });
 
     } catch (error) {
@@ -78,21 +65,12 @@ async function signup(req: Request, res: Response, next: NextFunction) {
         // Create new user
         user = await User.create({ email, password: hashedPassword, name });
 
-        // Generate JWT token
-        const token = jwt.sign(
-            user.toJSON(),
-            JWT_SECRET,
-            { expiresIn: '24h' }
-        );
+        // Set session
+        req.session.user = user.toJSON()
+        req.session.save()
 
         res.status(201).json({
-            token,
-            user: {
-                id: user._id,
-                email: user.email,
-                name: user.name,
-                role: user.role
-            }
+            user: req.session.user
         });
 
     } catch (error) {
