@@ -1,9 +1,9 @@
-import type { IProductModel } from '../interfaces/product/index.ts';
+import type { IProduct, IProductModel } from '../interfaces/product/index.ts';
 
 import mongoose, { Schema } from 'mongoose';
 
-const ProductSchema: Schema = new Schema({
-    category: { type: String, trim: true },
+const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
+    category: { type: String, trim: true, enum: ['ipad', 'iphone', 'watch', 'macbook', 'airpod'] },
     img1: { type: String },
     img2: { type: String },
     img3: { type: String },
@@ -37,5 +37,6 @@ ProductSchema.methods.getAllImages = function (): string[] {
 };
 
 // Create and export the model
-const Product = mongoose.model<IProductModel>('Product', ProductSchema);
+const Product = mongoose.model<IProduct, IProductModel>('Product', ProductSchema);
+
 export default Product;

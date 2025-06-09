@@ -12,6 +12,7 @@
         ],
         "strict": true,
         "declaration": true,
+        "sourceMap": true,
         //
         // "allowImportingTsExtensions": true,
         // "noEmit": true,

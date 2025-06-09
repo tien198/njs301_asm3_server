@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
-import User from '../models/user.js';
+import User from '../models/user/index.js';
 import ErrorRes from '../models/errorRes.js';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 

@@ -1,12 +1,15 @@
+import type IUser from '../../interfaces/user/user.js';
+import type { IUserMethods, IUserModel } from '../../interfaces/user/index.js';
+
 import { model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import type IUser from '../interfaces/user/user.ts';
-import type { IUserMethods, IUserModel } from '../interfaces/user/index.ts';
+import CartSchema from './cart.js';
+import Product from '../product.js';
+import ErrorRes from '../errorRes.js';
 
 
-type UserRaw = Required<IUser>
 
-const UserSchema = new Schema<UserRaw, IUserModel, IUserMethods>({
+const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
     email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     password: {
         type: String, select: false, required: true
@@ -16,14 +19,15 @@ const UserSchema = new Schema<UserRaw, IUserModel, IUserMethods>({
     name: { type: String, trim: true },
     phone: { type: Schema.Types.String },
     avatarUrl: { type: String },
-    role: { type: String, enum: ['admin', 'user'], default: 'user' }
+    role: { type: String, enum: ['admin', 'user'], default: 'user' },
+    cart: { type: [CartSchema] }
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps
     toJSON: {
         virtuals: true,
         transform: function (doc, ret) {
-            ret.id = ret._id.toString();
-            delete ret._id;
+            // ret.id = ret._id.toString();
+            // delete ret._id;
             delete ret.__v;
             // CRUCIAL security
             delete ret.password;
@@ -42,8 +46,14 @@ const UserSchema = new Schema<UserRaw, IUserModel, IUserMethods>({
             }
         },
 
-        fullName: function (): string {
-            return this.name || '';
+        async addToCart(productId, quantity) {
+            const product = await Product.findById(productId)
+            if (!product) {
+                throw new ErrorRes('Product not found', 404)
+            }
+
+            this.cart.push({ productRef: product._id, quantity })
+            await this.save()
         },
     }
 });

@@ -1,7 +1,6 @@
 
 export default interface IProduct {
-    _id?: string
-    category?: string
+    category?: 'ipad' | 'iphone' | 'watch' | 'macbook' | 'airpod'
     img1?: string
     img2?: string
     img3?: string
