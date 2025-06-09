@@ -7,7 +7,12 @@ const OrderItemSchema = new Schema<IOrderItem>({
     name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true, min: 1 },
-    image: { type: String }
+    img1: { type: String },
+    img2: { type: String },
+    img3: { type: String },
+    img4: { type: String },
+    long_desc: { type: String },
+    short_desc: { type: String },
 });
 
 export default OrderItemSchema

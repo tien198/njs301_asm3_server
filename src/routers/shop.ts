@@ -13,5 +13,6 @@ router.post('/find-by-category', shopCtrl.getProductByCategory);
 // add to cart
 router.use(isAuthMw)
 router.post('/add-to-cart', shopCtrl.addToCart);
+router.post('/create-order', shopCtrl.createOrder);
 
 export default router; 

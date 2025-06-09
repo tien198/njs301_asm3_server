@@ -13,20 +13,20 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     items: { type: [OrderItemSchema], required: true, validate: [(items: IOrderItem[]) => items.length > 0, 'Order must have at least one item'] },
     totalPrice: { type: Number, required: true, min: 0 },
-    tax: { type: Number, required: true, min: 0 },
+    tax: { type: Number, min: 0 },
     discountCode: { type: String },
 
     // payment infor
-    paymentMethod: { type: String, required: true, enum: ['cod', 'credit_card', 'paypal', 'momo'] },
+    paymentMethod: { type: String, enum: ['cod', 'credit_card', 'paypal', 'momo'] },
     isPaid: { type: Boolean, default: false },
     paidAt: { type: Date },
 
     // Shipping infor
-    shippingAddress: { type: ShippingAddressSchema, required: true },
+    shippingAddress: { type: ShippingAddressSchema },
     isDelivered: { type: Boolean, default: false },
     deliveredAt: { type: Date },
-    status: { type: String, required: true, enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
-    shippingFee: { type: Number, required: true, min: 0 },
+    status: { type: String, enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
+    shippingFee: { type: Number, min: 0 },
     trackingNumber: { type: String },
     carrier: { type: String },
 }, {
@@ -34,8 +34,8 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     toJSON: {
         virtuals: true,
         transform: function (doc, ret) {
-            ret.id = ret._id.toString();
-            delete ret._id;
+            // ret.id = ret._id.toString();
+            // delete ret._id;
             delete ret.__v;
             return ret;
         }

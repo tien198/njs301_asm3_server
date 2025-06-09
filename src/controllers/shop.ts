@@ -6,6 +6,7 @@ import { HydratedDocument } from 'mongoose';
 import IUser from '../interfaces/user/user.js';
 import { IUserMethods } from '../interfaces/user/index.js';
 import IProduct from '../interfaces/product/product.js';
+import Order from '../models/order/index.js';
 
 async function getProducts(req: Request, res: Response, next: NextFunction) {
     try {
@@ -97,7 +98,10 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
             return next(new ErrorRes('User not found', 404))
         }
 
-        await user.addToCart(productId, quantity)
+        const updatedUser = await user.addToCart(productId, quantity)
+
+        req.session.user = updatedUser
+        await req.session.save()
 
         res.json({ message: 'Product added to cart' })
     } catch (error) {
@@ -105,4 +109,48 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export default { getProducts, getProductById, getProductByCategory, addToCart }
+async function createOrder(req: Request, res: Response, next: NextFunction) {
+    try {
+        const cart = req.session.user!.cart
+
+        const queries = cart.map(i => Product.findById(i.productId).lean())
+        const products = await Promise.all(queries)
+
+        // index of the products that are not found
+        const failedIndex: number[] = []
+        products.forEach((i, index) => !i && failedIndex.push(index)) // if product is not found ( i === null ), add the index to the failedIndex array
+
+        if (failedIndex.length > 0) {
+            throw new ErrorRes('Some products not found, maybe they are deleted recently', 404, {
+                failedIds: failedIndex.map(i => String(cart[i].productId)) // return not found ids of the products
+            })
+        }
+
+        await Order.create({
+            userId: req.session.user?._id,
+            totalPrice: products.reduce((acc, p, index) => acc + +p!.price * cart[index].quantity, 0),
+            items: products.map((p, index) => ({
+                productId: p?._id,
+                quantity: cart[index].quantity,
+                ...p,
+                _id: undefined,
+                __v: undefined,
+                createdAt: undefined,
+                updatedAt: undefined,
+            }))
+        })
+
+        // run the folowing in the next tick
+        req.session.user!.cart = []
+        req.session.save(err => err && console.log(err))
+        User.findByIdAndUpdate(req.session.user?._id, { $set: { cart: [] } }).exec().then(err => err && console.log(err))
+
+        res.json({ message: 'Order created successfully' })
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+
+export default { getProducts, getProductById, getProductByCategory, addToCart, createOrder }

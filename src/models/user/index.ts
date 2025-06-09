@@ -20,7 +20,7 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
     phone: { type: Schema.Types.String },
     avatarUrl: { type: String },
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
-    cart: { type: [CartSchema] }
+    cart: { type: [CartSchema], default: [] }
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps
     toJSON: {
@@ -51,9 +51,14 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
             if (!product) {
                 throw new ErrorRes('Product not found', 404)
             }
+            const existItem = this.cart.find(i => i.productId.toString() === productId)
+            if (existItem) {
+                existItem.quantity += quantity
+            } else {
+                this.cart.push({ productId: product._id, quantity })
+            }
 
-            this.cart.push({ productRef: product._id, quantity })
-            await this.save()
+            return await this.save()
         },
     }
 });

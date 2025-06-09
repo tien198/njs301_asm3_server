@@ -9,7 +9,7 @@ export default interface IUser {
     avatarUrl: string
     role: 'admin' | 'user'
     cart: {
-        productRef: Types.ObjectId;
+        productId: Types.ObjectId;
         quantity: number;
     }[]
 }

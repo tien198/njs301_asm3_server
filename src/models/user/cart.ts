@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 const CartSchema = new Schema({
-    productRef: { type: Schema.Types.ObjectId, ref: 'Product' },
+    productId: { type: Schema.Types.ObjectId, ref: 'Product' },
     quantity: { type: Number, default: 1 }
 })
 
