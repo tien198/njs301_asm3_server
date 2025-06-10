@@ -2,23 +2,25 @@
 
 Package list may needed
 
+npm i -g yarn
+
 ## 🔧 Essential
 
-npm i -D typescript
+yarn add -D typescript
 
-npm i -D @types/node
+yarn add -D @types/node
 
 ## 🚀 express
 
-npm i express
+yarn add express
 
-npm i -D @types/express
+yarn add -D @types/express
 
 ---
 
 ### ✅ express-validator
 
-npm i express-validator
+yarn add express-validator
 
 - https://www.npmjs.com/package/express-validator
 
@@ -28,17 +30,17 @@ npm i express-validator
 
 ### 🕐 express-session
 
-npm i express-session
+yarn add express-session
 
-npm i @types/express-session
+yarn add @types/express-session
 
 - https://www.npmjs.com/package/express-session
 
 ` 🗃️ store session in mongodb`
 
-npm i connect-mongodb-session
+yarn add connect-mongodb-session
 
-npm i -D @types/connect-mongodb-session
+yarn add -D @types/connect-mongodb-session
 
 https://www.npmjs.com/package/connect-mongodb-session
 
@@ -46,9 +48,9 @@ https://www.npmjs.com/package/connect-mongodb-session
 
 ### 🗜️ compression
 
-npm i compression
+yarn add compression
 
-npm i -D @types/compression
+yarn add -D @types/compression
 
 - https://www.npmjs.com/package/compression
 
@@ -56,21 +58,21 @@ npm i -D @types/compression
 
 ### 🌐 cors
 
-npm i cors
+yarn add cors
 
-npm i -D @types/cors
+yarn add -D @types/cors
 
 ---
 
 ### ♻️ Dotenv (Environment Variables)
 
-npm i dotenv
+yarn add dotenv
 
 # Security
 
 ### 🔒 helmet (Set secure headers)
 
-npm i helmet
+yarn add helmet
 
 - https://helmetjs.github.io/
 
@@ -78,7 +80,7 @@ npm i helmet
 
 ### 🔒 bcryptjs (Password Hashing)
 
-npm i bcryptjs
+yarn add bcryptjs
 
 - https://www.npmjs.com/package/bcryptjs
 
@@ -86,9 +88,9 @@ npm i bcryptjs
 
 ### 🔑 jsonwebtoken
 
-npm i jsonwebtoken
+yarn add jsonwebtoken
 
-npm i -D @types/jsonwebtoken
+yarn add -D @types/jsonwebtoken
 
 - https://www.npmjs.com/package/jsonwebtoken
 
@@ -96,9 +98,9 @@ npm i -D @types/jsonwebtoken
 
 ### 🧩 lodash
 
-npm i lodash
+yarn add lodash
 
-npm i -D @types/lodash
+yarn add -D @types/lodash
 
 - https://www.npmjs.com/package/lodash
 
@@ -108,11 +110,11 @@ npm i -D @types/lodash
 
 ### 🗃️ mongodb
 
-npm i mongodb
+yarn add mongodb
 
-npm i mongoose
+yarn add mongoose
 
-npm i -D @types/mongoose
+yarn add -D @types/mongoose
 
 - https://www.mongodb.com/resources/languages/mongodb-and-npm-tutorial
 
@@ -122,9 +124,9 @@ npm i -D @types/mongoose
 
 ### 📁 multer
 
-npm i multer
+yarn add multer
 
-npm i -D @types/multer
+yarn add -D @types/multer
 
 - https://www.npmjs.com/package/multer
 
@@ -132,7 +134,7 @@ npm i -D @types/multer
 
 ### 📡 socket.io
 
-npm i socket.io
+yarn add socket.io
 
 - https://www.npmjs.com/package/socket.io
 
@@ -142,8 +144,17 @@ npm i socket.io
 
 ### 📝 Morgan (http request Logger)
 
-npm i morgan
+yarn add morgan
 
-npm i -D @types/morgan
+yarn add -D @types/morgan
 
 - https://www.npmjs.com/package/morgan
+
+
+### Nodemailer
+
+yarn add nodemailer
+
+yarn add -D @types/nodemailer
+
+- https://nodemailer.com/
