@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import authenCtrl from '../controllers/authen';
-import { isValidLoginMw, isValidResetPasswordMw, isValidSignupMw } from '../middlewares/validate/authValidator';
+import { isValidLoginMw, isValidResetPasswordMw, isValidSignupMw } from '../middlewares/validate/auth';
 
 const router = Router();
 

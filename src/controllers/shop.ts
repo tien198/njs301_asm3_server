@@ -7,6 +7,9 @@ import IUser from '../interfaces/user/user.js';
 import { IUserMethods } from '../interfaces/user/index.js';
 import IProduct from '../interfaces/product/product.js';
 import Order from '../models/order/index.js';
+import { queryProducts } from '../ultilities/shopCtrl/queryProducts.js';
+import { validationResult } from 'express-validator';
+import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 
 async function getProducts(req: Request, res: Response, next: NextFunction) {
     try {
@@ -69,6 +72,11 @@ async function getProductByCategory(req: Request, res: Response, next: NextFunct
 
 async function addToCart(req: Request, res: Response, next: NextFunction) {
     try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            throw new ErrorRes('Invalid request', 422, createErrorRes(errors))
+        }
+
         const productId = req.body.productId as string
         const quantity = +req.body.quantity
 
@@ -109,21 +117,32 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function getCart(req: Request, res: Response, next: NextFunction) {
+    try {
+        const cart = req.session.user!.cart
+        let products: IProduct[]
+        if (cart.length <= 0) {
+            products = []
+        }
+        else {
+            // ./utils/queryProducts.ts
+            products = (await queryProducts(cart)).products as IProduct[]
+        }
+
+        res.json({ cart: products })
+    } catch (error) {
+        next(error)
+    }
+}
+
 async function createOrder(req: Request, res: Response, next: NextFunction) {
     try {
         const cart = req.session.user!.cart
 
-        const queries = cart.map(i => Product.findById(i.productId).lean())
-        const products = await Promise.all(queries)
+        const { products, failedIds } = await queryProducts(cart)
 
-        // index of the products that are not found
-        const failedIndex: number[] = []
-        products.forEach((i, index) => !i && failedIndex.push(index)) // if product is not found ( i === null ), add the index to the failedIndex array
-
-        if (failedIndex.length > 0) {
-            throw new ErrorRes('Some products not found, maybe they are deleted recently', 404, {
-                failedIds: failedIndex.map(i => String(cart[i].productId)) // return not found ids of the products
-            })
+        if (failedIds.length > 0) {
+            throw new ErrorRes('Some products not found, maybe they are deleted recently', 404, { failedIds })
         }
 
         await Order.create({
@@ -153,4 +172,4 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
 
 
 
-export default { getProducts, getProductById, getProductByCategory, addToCart, createOrder }
+export default { getProducts, getProductById, getProductByCategory, addToCart, getCart, createOrder }
