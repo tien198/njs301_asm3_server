@@ -1,14 +1,14 @@
 import express, { Router } from 'express';
 import authenCtrl from '../controllers/authen';
-import { isValidLoginMw, isValidResetPasswordMw, isValidSignupMw } from '../middlewares/validate/auth';
+import { LoginValidatorMw, ResetPasswordValidatorMw, SignupValidatorMw } from '../middlewares/validate/auth';
 
 const router = Router();
 
 router.use(express.json());
 
 // Routes
-router.post('/login', isValidLoginMw, authenCtrl.login);
-router.post('/signup', isValidSignupMw, authenCtrl.signup);
-router.post('/resetpass', isValidResetPasswordMw, authenCtrl.resetPassword);
+router.post('/login', LoginValidatorMw, authenCtrl.login);
+router.post('/signup', SignupValidatorMw, authenCtrl.signup);
+router.post('/resetpass', ResetPasswordValidatorMw, authenCtrl.resetPassword);
 
 export default router;

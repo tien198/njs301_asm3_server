@@ -1,7 +1,7 @@
 import { body, check } from "express-validator";
 
 //  middleware
-export const isValidLoginMw = [
+export const LoginValidatorMw = [
     check('email')
         .trim()
         .notEmpty().withMessage('Please enter email').bail()
@@ -12,7 +12,7 @@ export const isValidLoginMw = [
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long').bail(),
 ];
 
-export const isValidSignupMw = [
+export const SignupValidatorMw = [
     check('name')
         .trim()
         .notEmpty().withMessage('Please enter name').bail(),
@@ -34,7 +34,7 @@ export const isValidSignupMw = [
         }).bail()
 ];
 
-export const isValidResetPasswordMw = [
+export const ResetPasswordValidatorMw = [
     check('email')
         .trim()
         .notEmpty().withMessage('Please enter email').bail()
