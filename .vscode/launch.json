@@ -12,10 +12,11 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "runtimeExecutable": "node",
-            "program": "${workspaceFolder}/dist/app.js",
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": ["dev"],
+            "program": "${workspaceFolder}/src/app.ts",
             "console": "integratedTerminal",
-            "preLaunchTask": "tsc build"
+            // "preLaunchTask": "tsc build"
         }
     ]
 }

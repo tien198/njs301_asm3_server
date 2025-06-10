@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express'
 import Product from '../models/product.js';
 import User from '../models/user/index.js';
 import ErrorRes from '../models/errorRes.js';
-import { HydratedDocument } from 'mongoose';
+import { FlattenMaps, HydratedDocument, Types } from 'mongoose';
 import IUser from '../interfaces/user/user.js';
 import { IUserMethods } from '../interfaces/user/index.js';
 import IProduct from '../interfaces/product/product.js';
@@ -10,6 +10,15 @@ import Order from '../models/order/index.js';
 import { queryProducts } from '../ultilities/shopCtrl/queryProducts.js';
 import { validationResult } from 'express-validator';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
+
+async function getCountProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+        const count = await Product.countDocuments()
+        res.json({ count })
+    } catch (error) {
+        next(error)
+    }
+}
 
 async function getProducts(req: Request, res: Response, next: NextFunction) {
     try {
@@ -120,13 +129,10 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
 async function getCart(req: Request, res: Response, next: NextFunction) {
     try {
         const cart = req.session.user!.cart
-        let products: IProduct[]
-        if (cart.length <= 0) {
-            products = []
-        }
-        else {
+        let products: FlattenMaps<IProduct>[] = []
+        if (cart.length > 0) {
             // ./utils/queryProducts.ts
-            products = (await queryProducts(cart)).products as IProduct[]
+            products = await queryProducts(cart)
         }
 
         res.json({ cart: products })
@@ -139,17 +145,13 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
     try {
         const cart = req.session.user!.cart
 
-        const { products, failedIds } = await queryProducts(cart)
-
-        if (failedIds.length > 0) {
-            throw new ErrorRes('Some products not found, maybe they are deleted recently', 404, { failedIds })
-        }
+        const products = await queryProducts(cart)
 
         await Order.create({
             userId: req.session.user?._id,
-            totalPrice: products.reduce((acc, p, index) => acc + +p!.price * cart[index].quantity, 0),
+            totalPrice: products.reduce((acc, p, index) => acc + +p.price * cart[index].quantity, 0),
             items: products.map((p, index) => ({
-                productId: p?._id,
+                productId: p._id,
                 quantity: cart[index].quantity,
                 ...p,
                 _id: undefined,
@@ -172,4 +174,4 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
 
 
 
-export default { getProducts, getProductById, getProductByCategory, addToCart, getCart, createOrder }
+export default { getCountProducts, getProducts, getProductById, getProductByCategory, addToCart, getCart, createOrder }

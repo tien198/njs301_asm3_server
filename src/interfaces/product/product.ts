@@ -1,5 +1,7 @@
+import { Types } from "mongoose"
 
 export default interface IProduct {
+    _id: Types.ObjectId
     category: 'ipad' | 'iphone' | 'watch' | 'macbook' | 'airpod'
     img1: string
     img2: string

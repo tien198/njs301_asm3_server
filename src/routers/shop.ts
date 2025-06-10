@@ -9,6 +9,7 @@ const router = Router();
 
 router.use(express.json())
 
+router.get('/count-products', shopCtrl.getCountProducts);
 router.get('/products', shopCtrl.getProducts);
 router.get('/product/:id', shopCtrl.getProductById);
 // find relevant products
