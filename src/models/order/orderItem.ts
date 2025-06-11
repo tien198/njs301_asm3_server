@@ -10,6 +10,7 @@ const OrderItemSchema = new Schema<IOrderItem>({
     quantity: { type: Number, required: true, min: 1 },
     category: { type: CategorySubdocSchema, required: true },
     imageUrl: { type: String, required: true },
+    lineTotal: { type: Number, required: true },
 }, {
     _id: false,
     timestamps: false

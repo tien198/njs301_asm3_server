@@ -1,5 +1,7 @@
+import { FlattenMaps } from "mongoose"
 import { ICartItem } from "../../interfaces/user/user"
 import Product from "../../models/product"
+import { IProduct } from "../../interfaces/product"
 
 /**
  * Query products from the cart
@@ -11,5 +13,19 @@ export async function queryProducts(cart: ICartItem[]) {
     const products = await Promise.all(queries)
 
     // remove products that are not found ( p === null )
-    return products.filter(p => p !== null)
+    const nnProducts: FlattenMaps<IProduct>[] = []
+    const nnCart = []
+
+    for (let i = 0; i < products.length; i++) {
+        if (!products[i])
+            continue
+
+        nnProducts.push(products[i]!)
+        nnCart.push(cart[i])
+    }
+
+    return {
+        products: nnProducts,
+        cart: nnCart
+    }
 }

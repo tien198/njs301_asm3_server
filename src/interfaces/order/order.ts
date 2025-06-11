@@ -6,6 +6,7 @@ import type IShippingTracking from "./shippingTracking.ts";
 
 export default interface IOrder {
     userId: Types.ObjectId; // ordered user
+    userName: string;
     items: IOrderItem[]; // products list
     totalPrice: number;
     tax: number;

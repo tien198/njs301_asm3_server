@@ -12,4 +12,5 @@ export default interface IOrderItem extends Partial<IProduct> {
         name: string
     }
     imageUrl: string;
+    lineTotal: number; // priceInOrderTime * quantity
 }

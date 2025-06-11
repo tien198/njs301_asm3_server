@@ -135,12 +135,13 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
 
 async function getCart(req: Request, res: Response, next: NextFunction) {
     try {
-        const cart = req.session.user!.cart
+        let cart = req.session.user!.cart
         let products: FlattenMaps<IProduct>[] = []
         if (cart.length > 0) {
             // ./utils/queryProducts.ts
-            products = await queryProducts(cart)
-
+            const queries = await queryProducts(cart)
+            products = queries.products
+            cart = queries.cart
         }
 
         const cartWithProductInfors = products.map((p, index) => ({
@@ -156,19 +157,20 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
 
 async function createOrder(req: Request, res: Response, next: NextFunction) {
     try {
-        const cart = req.session.user!.cart
 
-        const products = await queryProducts(cart)
+        const { products, cart } = await queryProducts(req.session.user!.cart)
         const orderItems: IOrderItem[] = products.map((p, index) => ({
             productId: p._id,
             name: p.name,
             priceInOrderTime: +p.price,
             quantity: cart[index].quantity,
             category: p.category,
-            imageUrl: p.img1
+            imageUrl: p.img1,
+            lineTotal: +p.price * cart[index].quantity
         }))
         await Order.create({
-            userId: req.session.user?._id,
+            userId: req.session.user!._id,
+            userName: req.session.user!.name,
             totalPrice: products.reduce((acc, p, index) => acc + +p.price * cart[index].quantity, 0),
             items: orderItems
         })

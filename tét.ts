@@ -1,34 +1,18 @@
 import { Types } from "mongoose"
 
 interface data {
-    userId: {
-        name: string
+    userId: Types.ObjectId,
+    userName: string, 11
+    items: {
+        productId: Types.ObjectId; // ID sản phẩm
+        name: string;
+        priceInOrderTime: number; // Giá sản phẩm tại thời điểm đặt hàng
+        quantity: number;  // Số lượng mua
+        imageUrl: string;
+        lineTotal: number; // thành tiền
+    }[],
+    shippingTracking: {
+        address: string
         phone: string
     }
-    shippingTracking:{
-        fullName: string;
-        phone: string;
-        address: string;
-        city: string;
-        district: string;
-        postalCode: string;
-        country: string;
-    
-        // Shipping infor
-        isDelivered: boolean;
-        deliveredAt: Date;
-        status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-        shippingFee: number;
-        trackingNumber: string
-        carrier: string
-    }
-    items: {
-        productId: Types.ObjectId
-        priceInOrderTime: number
-        quantity: number
-        category: {
-            _id: Types.ObjectId
-            name: string
-        }
-    }[]
 }

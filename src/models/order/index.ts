@@ -11,6 +11,7 @@ import ShippingTrackingSchema from './shippingTracking.js';
 
 const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    userName: { type: String },
     items: { type: [OrderItemSchema], required: true, validate: [(items: IOrderItem[]) => items.length > 0, 'Order must have at least one item'] },
     totalPrice: { type: Number, required: true, min: 0 },
     tax: { type: Number, min: 0 },
