@@ -1,43 +1,57 @@
 [
     {
-      "name": "iPad",
-      "slug": "ipad",
-      "parentId": null,
-      "image": "",
-      "description": "Các dòng máy tính bảng iPad mới nhất từ Apple.",
-      "isActive": true
+        "_id": {
+            "$oid": "6848f7d08613f2d2ed3d6583"
+        },
+        "name": "iPad",
+        "slug": "ipad",
+        "parentId": null,
+        "image": "",
+        "description": "Các dòng máy tính bảng iPad mới nhất từ Apple.",
+        "isActive": true
     },
     {
-      "name": "iPhone",
-      "slug": "iphone",
-      "parentId": null,
-      "image": "",
-      "description": "Các mẫu điện thoại iPhone chính hãng, nhiều lựa chọn.",
-      "isActive": true
+        "_id": {
+            "$oid": "6848f7d08613f2d2ed3d6584"
+        },
+        "name": "iPhone",
+        "slug": "iphone",
+        "parentId": null,
+        "image": "",
+        "description": "Các mẫu điện thoại iPhone chính hãng, nhiều lựa chọn.",
+        "isActive": true
     },
     {
-      "name": "Watch",
-      "slug": "watch",
-      "parentId": null,
-      "image": "",
-      "description": "Đồng hồ thông minh Apple Watch với nhiều mẫu mã.",
-      "isActive": true
+        "_id": {
+            "$oid": "6848f7d08613f2d2ed3d6585"
+        },
+        "name": "AirPods",
+        "slug": "airpod",
+        "parentId": null,
+        "image": "",
+        "description": "Tai nghe không dây AirPods với chất lượng âm thanh tuyệt vời.",
+        "isActive": true
     },
     {
-      "name": "MacBook",
-      "slug": "macbook",
-      "parentId": null,
-      "image": "",
-      "description": "Các dòng MacBook hiệu suất cao dành cho công việc và giải trí.",
-      "isActive": true
+        "_id": {
+            "$oid": "6848f7d08613f2d2ed3d6586"
+        },
+        "name": "Watch",
+        "slug": "watch",
+        "parentId": null,
+        "image": "",
+        "description": "Đồng hồ thông minh Apple Watch với nhiều mẫu mã.",
+        "isActive": true
     },
     {
-      "name": "AirPods",
-      "slug": "airpod",
-      "parentId": null,
-      "image": "",
-      "description": "Tai nghe không dây AirPods với chất lượng âm thanh tuyệt vời.",
-      "isActive": true
+        "_id": {
+            "$oid": "6848f7d08613f2d2ed3d6587"
+        },
+        "name": "MacBook",
+        "slug": "macbook",
+        "parentId": null,
+        "image": "",
+        "description": "Các dòng MacBook hiệu suất cao dành cho công việc và giải trí.",
+        "isActive": true
     }
-  ]
-  
+]

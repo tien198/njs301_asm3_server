@@ -22,7 +22,7 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     paidAt: { type: Date },
 
     // Shipping infor
-    shippingTracking: { type: ShippingTrackingSchema},
+    shippingTracking: { type: ShippingTrackingSchema },
 
 }, {
     timestamps: true,
@@ -39,7 +39,7 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
 
 // Add instance methods
 OrderSchema.methods = {
-    
+
     getTotalAmount(): number {
         return this.totalPrice + this.shippingTracking.shippingFee + this.tax;
     },
@@ -49,7 +49,7 @@ OrderSchema.methods = {
     canBeModified(): boolean {
         return this.shippingTracking.status === 'pending';
     }
-},
+}
 
 
 
@@ -57,7 +57,7 @@ OrderSchema.methods = {
 OrderSchema.index({ userId: 1, createdAt: -1 });
 OrderSchema.index({ status: 1 });
 OrderSchema.index({ trackingNumber: 1 });
-
+OrderSchema.index({ 'items.category._id': 1 });
 
 const Order = mongoose.model<IOrder, IOrderModel>('Order', OrderSchema);
 export default Order;

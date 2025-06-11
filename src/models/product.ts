@@ -2,11 +2,16 @@ import type { IProduct, IProductModel } from '../interfaces/product/index.ts';
 
 import mongoose, { Schema } from 'mongoose';
 
+export const CategorySubdocSchema = new Schema({
+    _id: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    name: { type: String, trim: true, required: true }
+}, {
+    _id: false,
+    timestamps: false,
+})
+
 const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
-    category: {
-        _id: { type: Schema.Types.ObjectId, ref: 'Category' },
-        name: { type: String, trim: true }
-    },
+    category: { type: CategorySubdocSchema, required: true },
     img1: { type: String },
     img2: { type: String },
     img3: { type: String },
