@@ -3,7 +3,7 @@ import type { IUserMethods, IUserModel } from '../../interfaces/user/index.js';
 
 import { model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import CartSchema from './cart.js';
+import CartItemSchema from './CartItemSchema.js';
 import Product from '../product.js';
 import ErrorRes from '../errorRes.js';
 
@@ -20,14 +20,14 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
     phone: { type: Schema.Types.String },
     avatarUrl: { type: String },
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
-    cart: { type: [CartSchema], default: [] }
+    cart: { type: [CartItemSchema], default: [] }
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps
     toJSON: {
         virtuals: true,
         transform: function (doc, ret) {
             // ret.id = ret._id.toString();
-            // delete ret._id;
+            delete ret._id;
             delete ret.__v;
             // CRUCIAL security
             delete ret.password;

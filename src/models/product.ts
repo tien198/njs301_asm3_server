@@ -3,7 +3,10 @@ import type { IProduct, IProductModel } from '../interfaces/product/index.ts';
 import mongoose, { Schema } from 'mongoose';
 
 const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
-    category: { type: String, trim: true, enum: ['ipad', 'iphone', 'watch', 'macbook', 'airpod'] },
+    category: {
+        _id: { type: Schema.Types.ObjectId, ref: 'Category' },
+        name: { type: String, trim: true }
+    },
     img1: { type: String },
     img2: { type: String },
     img3: { type: String },
@@ -17,7 +20,7 @@ const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
     toJSON: {
         virtuals: true,
         transform: function (doc, ret) {
-            ret.id = ret._id.toString();
+            // ret.id = ret._id.toString();
             delete ret._id;
             delete ret.__v;
             return ret;

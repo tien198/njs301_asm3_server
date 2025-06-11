@@ -1,6 +1,6 @@
 import type { Types } from "mongoose";
 import type IOrderItem from "./orderItem.ts";
-import type IShippingAddress from "./shippingAddress.ts";
+import type IShippingTracking from "./shippingTracking.ts";
 
 
 
@@ -16,12 +16,7 @@ export default interface IOrder {
     isPaid: boolean;
     paidAt?: Date;
 
-    // Shipping infor
-    shippingAddress: IShippingAddress;
-    isDelivered: boolean;
-    deliveredAt?: Date;
-    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-    shippingFee: number;
-    trackingNumber?: string
-    carrier?: string
+    // Shipping tracking infor
+    shippingTracking: IShippingTracking;
+
 }

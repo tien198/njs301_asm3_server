@@ -4,7 +4,7 @@ import type IOrder from '../../interfaces/order/order.ts';
 
 import mongoose, { Schema } from 'mongoose';
 import OrderItemSchema from './orderItem.js';
-import ShippingAddressSchema from './shippingAddress.js';
+import ShippingTrackingSchema from './shippingTracking.js';
 
 
 
@@ -22,13 +22,8 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     paidAt: { type: Date },
 
     // Shipping infor
-    shippingAddress: { type: ShippingAddressSchema },
-    isDelivered: { type: Boolean, default: false },
-    deliveredAt: { type: Date },
-    status: { type: String, enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
-    shippingFee: { type: Number, min: 0 },
-    trackingNumber: { type: String },
-    carrier: { type: String },
+    shippingTracking: { type: ShippingTrackingSchema},
+
 }, {
     timestamps: true,
     toJSON: {
@@ -40,25 +35,21 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
             return ret;
         }
     },
-
-
-
-
-
-
-    // Add instance methods
-    methods: {
-        getTotalAmount(): number {
-            return this.totalPrice + this.shippingFee + this.tax;
-        },
-        canBeCancelled(): boolean {
-            return ['pending', 'processing'].includes(this.status);
-        },
-        canBeModified(): boolean {
-            return this.status === 'pending';
-        }
-    },
 });
+
+// Add instance methods
+OrderSchema.methods = {
+    
+    getTotalAmount(): number {
+        return this.totalPrice + this.shippingTracking.shippingFee + this.tax;
+    },
+    canBeCancelled(): boolean {
+        return ['pending', 'processing'].includes(this.shippingTracking.status);
+    },
+    canBeModified(): boolean {
+        return this.shippingTracking.status === 'pending';
+    }
+},
 
 
 
@@ -68,5 +59,5 @@ OrderSchema.index({ status: 1 });
 OrderSchema.index({ trackingNumber: 1 });
 
 
-const Order = mongoose.model('Order', OrderSchema);
+const Order = mongoose.model<IOrder, IOrderModel>('Order', OrderSchema);
 export default Order;

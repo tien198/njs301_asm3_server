@@ -1,12 +1,14 @@
 import type { Request, Response, NextFunction } from 'express'
+import type IUser from '../interfaces/user/user.js';
+import type { IUserMethods } from '../interfaces/user/index.js';
+import type IProduct from '../interfaces/product/product.js';
+import type { FlattenMaps, HydratedDocument } from 'mongoose';
+import type IOrderItem from '../interfaces/order/orderItem.js';
+
 import Product from '../models/product.js';
 import User from '../models/user/index.js';
-import ErrorRes from '../models/errorRes.js';
-import { FlattenMaps, HydratedDocument, Types } from 'mongoose';
-import IUser from '../interfaces/user/user.js';
-import { IUserMethods } from '../interfaces/user/index.js';
-import IProduct from '../interfaces/product/product.js';
 import Order from '../models/order/index.js';
+import ErrorRes from '../models/errorRes.js';
 import { queryProducts } from '../ultilities/shopCtrl/queryProducts.js';
 import { validationResult } from 'express-validator';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
@@ -31,7 +33,10 @@ async function getProducts(req: Request, res: Response, next: NextFunction) {
             .select('-__v')
             .lean()
 
-        res.json(products)
+        // lean product convert _id to id (don't let client know server use Mongoose)
+        const leanProducts = products.map(product => ({ id: String(product._id), ...product, _id: undefined }))
+
+        res.json(leanProducts)
     } catch (error) {
         next(error)
     }
@@ -46,8 +51,10 @@ async function getProductById(req: Request, res: Response, next: NextFunction) {
         if (!product) {
             throw new ErrorRes('Product not found', 404)
         }
+        // convert _id to id (don't let client know server use Mongoose)
+        const leanProduct = { id: String(product._id), ...product, _id: undefined }
 
-        res.json(product);
+        res.json(leanProduct)
     } catch (error) {
         next(error)
     }
@@ -133,9 +140,15 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
         if (cart.length > 0) {
             // ./utils/queryProducts.ts
             products = await queryProducts(cart)
+
         }
 
-        res.json({ cart: products })
+        const cartWithProductInfors = products.map((p, index) => ({
+            ...p,
+            quantity: cart[index].quantity
+        }))
+
+        res.json({ cart: cartWithProductInfors })
     } catch (error) {
         next(error)
     }
@@ -146,19 +159,18 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
         const cart = req.session.user!.cart
 
         const products = await queryProducts(cart)
-
+        const orderItems: IOrderItem[] = products.map((p, index) => ({
+            productId: p._id,
+            name: p.name,
+            priceInOrderTime: +p.price,
+            quantity: cart[index].quantity,
+            category: p.category,
+            imageUrl: p.img1
+        }))
         await Order.create({
             userId: req.session.user?._id,
             totalPrice: products.reduce((acc, p, index) => acc + +p.price * cart[index].quantity, 0),
-            items: products.map((p, index) => ({
-                productId: p._id,
-                quantity: cart[index].quantity,
-                ...p,
-                _id: undefined,
-                __v: undefined,
-                createdAt: undefined,
-                updatedAt: undefined,
-            }))
+            items: orderItems
         })
 
         // run the folowing in the next tick

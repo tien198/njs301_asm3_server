@@ -16,7 +16,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
         const { email, password } = req.body;
 
         // Check if user exists
-        const user = await User.findOne({ email }).select('+password -cart');
+        const user = await User.findOne({ email }).select('+password');
         if (!user) {
             throw new ErrorRes('login failed', 401, { message: "User or password is incorrect" })
         }
@@ -28,11 +28,11 @@ async function login(req: Request, res: Response, next: NextFunction) {
         }
 
         // Set session
-        req.session.user = user.toJSON()
+        req.session.user = user.toObject()
         req.session.save()
 
         res.json({
-            user: req.session.user
+            user: { ...req.session.user, password: undefined, cart: undefined }
         });
 
     } catch (error) {
@@ -66,11 +66,11 @@ async function signup(req: Request, res: Response, next: NextFunction) {
         user = await User.create({ email, password: hashedPassword, name });
 
         // Set session
-        req.session.user = user.toJSON()
+        req.session.user = user.toObject()
         req.session.save()
 
         res.status(201).json({
-            user: { ...req.session.user, cart: undefined }
+            user: { ...req.session.user, password: undefined, cart: undefined }
         });
 
     } catch (error) {

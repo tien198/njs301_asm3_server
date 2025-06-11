@@ -1,7 +1,7 @@
 import type { Model } from "mongoose";
 import type IOrder from "./order.ts";
 import type IOrderItem from './orderItem.ts'
-import type IShippingAddress from "./shippingAddress.ts";
+import type IShippingAddress from "./shippingTracking.js";
 
 export type { IOrder, IOrderItem, IShippingAddress }
 
