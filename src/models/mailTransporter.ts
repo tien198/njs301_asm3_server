@@ -1,18 +1,17 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import nodemailer from 'nodemailer'
 
-
-
-export const transporter = nodemailer.createTransport({
-    service: "gmail",
+const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.GOOGLE_APP_EMAIL,
         pass: process.env.GOOGLE_APP_PASSWORD
     },
+    // service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true
 })
 
-export async function sendHtmlMail(to: string, subject: string, html: string) {
+async function sendHtmlMail(to: string, subject: string, html: string) {
     try {
         transporter.sendMail({
             from: process.env.ORGANIZATION_NAME,
@@ -23,7 +22,7 @@ export async function sendHtmlMail(to: string, subject: string, html: string) {
     }
 }
 
-export async function sendTextMail(to: string, subject: string, text: string) {
+async function sendTextMail(to: string, subject: string, text: string) {
     try {
         transporter.sendMail({
             from: process.env.ORGANIZATION_NAME,
@@ -32,4 +31,8 @@ export async function sendTextMail(to: string, subject: string, text: string) {
     } catch (error) {
         console.error(error)
     }
-} 
+}
+
+const MailTransporter = { sendHtmlMail, sendTextMail }
+
+export default MailTransporter

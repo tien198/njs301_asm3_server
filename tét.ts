@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 
-interface data {
+interface Order {
     userId: Types.ObjectId,
     userName: string, 11
     items: {

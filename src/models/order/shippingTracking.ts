@@ -4,9 +4,10 @@ import { Schema } from "mongoose";
 
 const ShippingTrackingSchema = new Schema<IShippingTracking>({
     fullName: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, lowercase: true },
     phone: { type: String, required: true, trim: true },
     address: { type: String, required: true, trim: true },
-    city: { type: String, required: true, trim: true },
+    city: { type: String, trim: true },
     district: { type: String, trim: true },
     postalCode: { type: String, trim: true },
     country: { type: String, trim: true, default: 'Vietnam' },

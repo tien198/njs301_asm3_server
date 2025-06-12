@@ -23,7 +23,7 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     paidAt: { type: Date },
 
     // Shipping infor
-    shippingTracking: { type: ShippingTrackingSchema },
+    shippingTracking: { type: ShippingTrackingSchema, required: true },
 
 }, {
     timestamps: true,

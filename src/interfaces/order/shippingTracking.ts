@@ -1,6 +1,7 @@
 // Shipping tracking
 export default interface IShippingTracking {
     fullName: string;
+    email: string;
     phone: string;
     address: string;
     city: string;

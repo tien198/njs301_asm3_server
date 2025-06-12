@@ -12,6 +12,8 @@ import ErrorRes from '../models/errorRes.js';
 import { queryProducts } from '../ultilities/shopCtrl/queryProducts.js';
 import { validationResult } from 'express-validator';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
+import MailTransporter from '../models/mailTransporter.js';
+import orderInformMail from '../ultilities/mailTemplates/orderInfrom.js';
 
 async function getCountProducts(req: Request, res: Response, next: NextFunction) {
     try {
@@ -157,6 +159,7 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
 
 async function createOrder(req: Request, res: Response, next: NextFunction) {
     try {
+        const { fullName, email, phone, address } = req.body
 
         const { products, cart } = await queryProducts(req.session.user!.cart)
         const orderItems: IOrderItem[] = products.map((p, index) => ({
@@ -168,14 +171,21 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
             imageUrl: p.img1,
             lineTotal: +p.price * cart[index].quantity
         }))
-        await Order.create({
+        const createdDoc = await Order.create({
             userId: req.session.user!._id,
             userName: req.session.user!.name,
             totalPrice: products.reduce((acc, p, index) => acc + +p.price * cart[index].quantity, 0),
-            items: orderItems
+            items: orderItems,
+            shippingTracking: { fullName, email, phone, address },
         })
 
+
         // run the folowing in the next tick
+        MailTransporter.sendHtmlMail(email, 'Order Confirmation', orderInformMail(createdDoc))
+        if (req.session.user!.email !== email) {
+            // send order confirmation to the email provided in the order
+            MailTransporter.sendHtmlMail(req.session.user!.email, 'Order Confirmation', orderInformMail(createdDoc))
+        }
         req.session.user!.cart = []
         req.session.save(err => err && console.log(err))
         User.findByIdAndUpdate(req.session.user?._id, { $set: { cart: [] } }).exec().then(err => err && console.log(err))
