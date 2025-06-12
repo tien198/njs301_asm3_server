@@ -12,7 +12,7 @@ export default interface IShippingTracking {
     // Shipping infor
     isDelivered: boolean;
     deliveredAt: Date;
-    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+    status: 'waiting for progress' | 'in progress' | 'delivered' | 'cancelled';
     shippingFee: number;
     trackingNumber: string
     carrier: string

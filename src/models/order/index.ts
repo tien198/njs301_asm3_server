@@ -16,6 +16,7 @@ const OrderSchema = new Schema<IOrder, IOrderModel, IOrderMethods>({
     totalPrice: { type: Number, required: true, min: 0 },
     tax: { type: Number, min: 0 },
     discountCode: { type: String },
+    status: { type: String, enum: ['waiting', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'waiting' },
 
     // payment infor
     paymentMethod: { type: String, enum: ['cod', 'credit_card', 'paypal', 'momo'] },
@@ -45,10 +46,10 @@ OrderSchema.methods = {
         return this.totalPrice + this.shippingTracking.shippingFee + this.tax;
     },
     canBeCancelled(): boolean {
-        return ['pending', 'processing'].includes(this.shippingTracking.status);
+        return ['waiting for progress', 'in progress'].includes(this.shippingTracking.status);
     },
     canBeModified(): boolean {
-        return this.shippingTracking.status === 'pending';
+        return this.shippingTracking.status === 'waiting for progress';
     }
 }
 

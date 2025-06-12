@@ -3,7 +3,7 @@ import shopCtrl from '../controllers/shop.js';
 import { isAuthMw } from '../middlewares/identityMw.js';
 
 // validator Mw
-import { addToCartValidatorMw } from '../middlewares/validate/shop.js';
+import { addToCartValidatorMw, createOrderValidatorMw } from '../middlewares/validate/shop.js';
 
 const router = Router();
 
@@ -18,6 +18,8 @@ router.post('/find-by-category', shopCtrl.getProductByCategory);
 router.use(isAuthMw)
 router.post('/add-to-cart', addToCartValidatorMw, shopCtrl.addToCart);
 router.get('/cart', shopCtrl.getCart);
-router.post('/create-order', shopCtrl.createOrder);
+router.post('/create-order', createOrderValidatorMw, shopCtrl.createOrder);
+router.get('/orders', shopCtrl.getOrders);
+router.get('/order/:id', shopCtrl.getOrderById);
 
 export default router; 

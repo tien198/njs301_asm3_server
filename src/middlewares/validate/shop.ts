@@ -9,3 +9,15 @@ export const addToCartValidatorMw = [
         .isInt({ min: 1 }).withMessage('Quantity must be greater than 0').bail()
 ]
 
+export const createOrderValidatorMw = [
+    body('fullName').trim()
+        .notEmpty().withMessage('Full name is required').bail(),
+    body('email').trim()
+        .notEmpty().withMessage('Email is required').bail()
+        .isEmail().withMessage('Invalid email').bail(),
+    body('phone').trim()
+        .notEmpty().withMessage('Phone is required').bail()
+        .isMobilePhone('vi-VN').withMessage('Invalid phone number').bail(),
+    body('address').trim()
+        .notEmpty().withMessage('Address is required').bail()
+]

@@ -15,7 +15,7 @@ const ShippingTrackingSchema = new Schema<IShippingTracking>({
     // Shipping infor
     isDelivered: { type: Boolean, default: false },
     deliveredAt: { type: Date },
-    status: { type: String, enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
+    status: { type: String, enum: ['waiting for progress', 'in progress', 'delivered', 'cancelled'], default: 'waiting for progress' },
     shippingFee: { type: Number, min: 0 },
     trackingNumber: { type: String },
     carrier: { type: String },

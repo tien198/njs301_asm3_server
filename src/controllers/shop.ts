@@ -159,6 +159,11 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
 
 async function createOrder(req: Request, res: Response, next: NextFunction) {
     try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            throw new ErrorRes('Invalid request', 422, createErrorRes(errors))
+        }
+
         const { fullName, email, phone, address } = req.body
 
         const { products, cart } = await queryProducts(req.session.user!.cart)
@@ -196,6 +201,28 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function getOrders(req: Request, res: Response, next: NextFunction) {
+    try {
+        const orders = await Order.find({ userId: req.session.user!._id })
+            .select('userId userName  shippingTracking.phone shippingTracking.address shippingTracking.status status')
+            .lean()
+        res.json(orders)
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function getOrderById(req: Request, res: Response, next: NextFunction) {
+    try {
+        const order = await Order.findById(req.params.id)
+            .select('userId userName  shippingTracking.phone shippingTracking.address totalPrice items.productId items.name items.priceInOrderTime items.quantity items.imageUrl items.lineTotal')
+            .lean()
+        res.json(order)
+    } catch (error) {
+        next(error)
+    }
+}
 
 
-export default { getCountProducts, getProducts, getProductById, getProductByCategory, addToCart, getCart, createOrder }
+
+export default { getCountProducts, getProducts, getProductById, getProductByCategory, addToCart, getCart, createOrder, getOrders, getOrderById }

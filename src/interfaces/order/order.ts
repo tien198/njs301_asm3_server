@@ -10,7 +10,8 @@ export default interface IOrder {
     items: IOrderItem[]; // products list
     totalPrice: number;
     tax: number;
-    discountCode?: string
+    discountCode: string
+    status: 'waiting' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
 
     // payment infor
     paymentMethod: 'cod' | 'credit_card' | 'paypal' | 'momo';
