@@ -2,6 +2,7 @@ import type ErrorRes from './models/errorRes';
 import type { Request, Response, NextFunction } from 'express';
 
 import express from 'express'
+import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -13,8 +14,19 @@ import shopRouter from './routers/shop';
 
 const app = express()
 
+const whiteList = [process.env.CLIENT_URL]
 // library middlewares
-app.use(helmet())
+app.use(
+    cors({
+        origin(requestOrigin, callback) {
+            if (whiteList.indexOf(requestOrigin) !== -1 || !requestOrigin)
+                callback(null, true)
+            else
+                callback(new Error('Not allowed by CORS'))
+        },
+    }),
+    helmet()
+)
 
 // custom middlewares
 app.use(sessionMw())

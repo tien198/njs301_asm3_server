@@ -42,7 +42,7 @@ yarn add connect-mongodb-session
 
 yarn add -D @types/connect-mongodb-session
 
-https://www.npmjs.com/package/connect-mongodb-session
+- https://www.npmjs.com/package/connect-mongodb-session
 
 ---
 
@@ -61,6 +61,8 @@ yarn add -D @types/compression
 yarn add cors
 
 yarn add -D @types/cors
+
+- https://www.npmjs.com/package/cors
 
 ---
 
