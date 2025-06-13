@@ -29,6 +29,8 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
             // ret.id = ret._id.toString();
             delete ret._id;
             delete ret.__v;
+            delete ret.createdAt;
+            delete ret.updatedAt;
             // CRUCIAL security
             delete ret.password;
             return ret;

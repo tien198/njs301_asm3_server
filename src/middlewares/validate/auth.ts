@@ -9,7 +9,6 @@ export const LoginValidatorMw = [
     body('password')
         .trim()
         .notEmpty().withMessage('Please enter password').bail()
-        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long').bail(),
 ];
 
 export const SignupValidatorMw = [

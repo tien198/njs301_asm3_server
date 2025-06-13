@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import User from '../models/user/index.js';
 import ErrorRes from '../models/errorRes.js';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
+import IAuthError from '../interfaces/response/error/authError.js';
 
 
 async function login(req: Request, res: Response, next: NextFunction) {
@@ -18,21 +19,21 @@ async function login(req: Request, res: Response, next: NextFunction) {
         // Check if user exists
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
-            throw new ErrorRes('login failed', 401, { message: "User or password is incorrect" })
+            throw new ErrorRes<IAuthError>('login failed', 401, { credential: "User or password is incorrect" })
         }
 
         // Validate password
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            throw new ErrorRes('login failed', 401, { message: "User or password is incorrect" })
+            throw new ErrorRes<IAuthError>('login failed', 401, { credential: "User or password is incorrect" })
         }
 
         // Set session
-        req.session.user = user.toObject()
+        req.session.user = user.toJSON()
         req.session.save()
 
         res.json({
-            user: { ...req.session.user, password: undefined, cart: undefined }
+            user: { ...req.session.user, cart: undefined }
         });
 
     } catch (error) {
@@ -54,7 +55,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
         // Check if user already exists
         let user = await User.findOne({ email });
         if (user) {
-            throw new ErrorRes('signup failed', 400, { message: "User already exists" })
+            throw new ErrorRes<IAuthError>('signup failed', 400, { email: "User already exists" })
         }
 
         // Hash password
@@ -66,11 +67,11 @@ async function signup(req: Request, res: Response, next: NextFunction) {
         user = await User.create({ email, password: hashedPassword, name });
 
         // Set session
-        req.session.user = user.toObject()
+        req.session.user = user.toJSON()
         req.session.save()
 
         res.status(201).json({
-            user: { ...req.session.user, password: undefined, cart: undefined }
+            user: { ...req.session.user, cart: undefined }
         });
 
     } catch (error) {
