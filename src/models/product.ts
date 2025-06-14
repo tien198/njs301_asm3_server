@@ -2,16 +2,10 @@ import type { IProduct, IProductModel } from '../interfaces/product/index.ts';
 
 import mongoose, { Schema } from 'mongoose';
 
-export const CategorySubdocSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-    name: { type: String, trim: true, required: true }
-}, {
-    _id: false,
-    timestamps: false,
-})
+
 
 const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
-    category: { type: CategorySubdocSchema, required: true },
+    category: { type: String, required: true },
     img1: { type: String },
     img2: { type: String },
     img3: { type: String },
@@ -43,6 +37,8 @@ ProductSchema.methods.getFormattedPrice = function (): string {
 ProductSchema.methods.getAllImages = function (): string[] {
     return [this.img1, this.img2, this.img3, this.img4].filter(img => img);
 };
+
+ProductSchema.index({ category: 1 });
 
 // Create and export the model
 const Product = mongoose.model<IProduct, IProductModel>('Product', ProductSchema);

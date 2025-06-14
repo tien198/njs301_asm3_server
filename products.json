@@ -3,10 +3,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df1667"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6584",
-            "name": "iphone"
-        },
+        "category": "iphone",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_13_4.jpeg?alt=media&token=dc72dde3-cfa4-4710-9493-ac2aa0ecf249",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_13_3.jpeg?alt=media&token=b3417ab8-33b9-4b52-a980-8f9afe4e0896",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_13_2.jpeg?alt=media&token=74aac3de-0c55-490e-9601-30829de7879f",
@@ -20,10 +17,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df1668"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6584",
-            "name": "iphone"
-        },
+        "category": "iphone",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_11_2.jpeg?alt=media&token=2e8b6c8e-56fa-4cfd-86c4-9be2ee6205e0",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_11_3.jpeg?alt=media&token=84af09ee-ef66-4227-94ef-bcd60c105b74",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_11_4.jpeg?alt=media&token=3008fd7b-7c54-460f-bd4e-afd0ba39f57c",
@@ -37,10 +31,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df1669"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6584",
-            "name": "iphone"
-        },
+        "category": "iphone",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_12_3.jpeg?alt=media&token=56832bd5-c510-4760-923c-fae236c6712c",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_12_2.jpeg?alt=media&token=56f78317-be84-4f2e-a050-6a35f8cba356",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fiphone_12_1.jpeg?alt=media&token=6acaeb5d-1299-4bde-9e60-bee43b49570e",
@@ -54,10 +45,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df166a"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6583",
-            "name": "ipad"
-        },
+        "category": "ipad",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fipad_gen9_1.jpeg?alt=media&token=507fbf42-b8db-4007-b294-397b95cce7ba",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fipad_gen9_2.jpeg?alt=media&token=2be93dfc-b78a-4798-8dbf-316405853a6b",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fipad_gen9_3.jpeg?alt=media&token=6edb581f-6727-4501-9bce-d7f4b806007b",
@@ -71,10 +59,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df166b"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6583",
-            "name": "ipad"
-        },
+        "category": "ipad",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fipad_air_1.jpeg?alt=media&token=79be0859-23b8-4915-8f92-4bf087ab3186",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fipad_air_2.jpeg?alt=media&token=e58dc089-ce13-4415-80bd-1b40383591e5",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fipad_air_3.jpeg?alt=media&token=e6070fc1-f33d-4b2d-a979-71c756978ebf",
@@ -88,10 +73,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df166c"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6586",
-            "name": "watch"
-        },
+        "category": "watch",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fwatch_1_4.jpeg?alt=media&token=c5642ff3-ec27-4af1-bca2-87a5606f9fee",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fwatch_1_3.jpeg?alt=media&token=b73a1072-0246-44c9-b694-6686683fe845",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fwatch_1_2.jpeg?alt=media&token=0eda1185-e2f6-4afc-bad3-4403fc406bfe",
@@ -105,10 +87,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df166d"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6586",
-            "name": "watch"
-        },
+        "category": "watch",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fwatch_2_1.jpeg?alt=media&token=6585e4e6-801a-4b15-9dee-692523cc25f0",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fwatch_2_2.jpeg?alt=media&token=36a9ed1c-364d-4ef8-8c2f-9a59749ab057",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fwatch_2_4.jpeg?alt=media&token=680502bd-d359-4095-8b37-841e9fd35a2d",
@@ -122,10 +101,7 @@
         "_id": {
             "$oid": "684919650112ae59c0df166e"
         },
-        "category": {
-            "_id": "6848f7d08613f2d2ed3d6585",
-            "name": "airpod"
-        },
+        "category": "airpod",
         "img1": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fairpod_1_1.jpeg?alt=media&token=33b2ebdd-086c-4b8e-9241-0b566ca66754",
         "img2": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fairpod_1_2.jpeg?alt=media&token=b6201728-3058-489e-aa49-df59c4255833",
         "img3": "https://firebasestorage.googleapis.com/v0/b/funix-way.appspot.com/o/xSeries%2FCCDN%2FReactJS%2FAssignment_Images%2FASM03_Resources%2Fairpod_1_4.jpeg?alt=media&token=cb5d7f1f-03a2-409a-8ee9-1783b37e6b56",

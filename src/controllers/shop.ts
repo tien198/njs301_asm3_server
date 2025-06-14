@@ -64,13 +64,14 @@ async function getProductById(req: Request, res: Response, next: NextFunction) {
 
 async function getProductByCategory(req: Request, res: Response, next: NextFunction) {
     try {
+        const category = req.params.category
+
         const page = +req.query.page! || 1;
         const limit = +req.query.limit! || 10;
         const skip = (page - 1) * limit;
 
-        const category = req.body.category
         if (!category) {
-            throw new ErrorRes('Not found relevant products', 404, { category: 'category is required in body request' })
+            throw new ErrorRes('Not found relevant products', 404, { category: 'category is required in params request' })
         }
 
         const products = await Product.find({ category })
@@ -115,7 +116,7 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
 
         let user: HydratedDocument<IUser, IUserMethods> | null = null
         try {
-            user = await User.findById(req.session.user?._id)
+            user = await User.findById(req.session.user?.id)
         } catch (error) {
             throw new ErrorRes('User not found', 404)
         }
@@ -126,7 +127,7 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
 
         const updatedUser = await user.addToCart(productId, quantity)
 
-        req.session.user = updatedUser
+        req.session.user = updatedUser.toJSON()
         await req.session.save()
 
         res.json({ message: 'Product added to cart' })
@@ -177,7 +178,7 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
             lineTotal: +p.price * cart[index].quantity
         }))
         const createdDoc = await Order.create({
-            userId: req.session.user!._id,
+            userId: req.session.user!.id,
             userName: req.session.user!.name,
             totalPrice: products.reduce((acc, p, index) => acc + +p.price * cart[index].quantity, 0),
             items: orderItems,
@@ -193,7 +194,7 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
         }
         req.session.user!.cart = []
         req.session.save(err => err && console.log(err))
-        User.findByIdAndUpdate(req.session.user?._id, { $set: { cart: [] } }).exec().then(err => err && console.log(err))
+        User.findByIdAndUpdate(req.session.user!.id, { $set: { cart: [] } }).exec().then(err => err && console.log(err))
 
         res.json({ message: 'Order created successfully' })
     } catch (error) {
@@ -203,7 +204,7 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
 
 async function getOrders(req: Request, res: Response, next: NextFunction) {
     try {
-        const orders = await Order.find({ userId: req.session.user!._id })
+        const orders = await Order.find({ userId: req.session.user!.id })
             .select('userId userName  shippingTracking.phone shippingTracking.address shippingTracking.status status')
             .lean()
         res.json(orders)

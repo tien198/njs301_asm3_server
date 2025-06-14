@@ -13,7 +13,7 @@ router.get('/count-products', shopCtrl.getCountProducts);
 router.get('/products', shopCtrl.getProducts);
 router.get('/product/:id', shopCtrl.getProductById);
 // find relevant products
-router.post('/find-by-category', shopCtrl.getProductByCategory);
+router.get('/find-by-category/:category', shopCtrl.getProductByCategory);
 // add to cart
 router.use(isAuthMw)
 router.post('/add-to-cart', addToCartValidatorMw, shopCtrl.addToCart);
