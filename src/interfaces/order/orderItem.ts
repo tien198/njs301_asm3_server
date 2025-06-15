@@ -7,10 +7,7 @@ export default interface IOrderItem extends Partial<IProduct> {
     name: string;
     priceInOrderTime: number; // Giá sản phẩm tại thời điểm đặt hàng
     quantity: number;  // Số lượng mua
-    category: {
-        _id: Types.ObjectId
-        name: string
-    }
+    category: string; // Danh mục sản phẩm
     imageUrl: string;
     lineTotal: number; // priceInOrderTime * quantity
 }

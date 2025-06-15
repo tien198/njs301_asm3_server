@@ -15,6 +15,9 @@ import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 import MailTransporter from '../models/mailTransporter.js';
 import orderInformMail from '../ultilities/mailTemplates/orderInfrom.js';
 
+
+const leanProduct = (product: FlattenMaps<IProduct>) => ({ id: String(product._id), ...product, _id: undefined })
+
 async function getCountProducts(req: Request, res: Response, next: NextFunction) {
     try {
         const count = await Product.countDocuments()
@@ -36,7 +39,7 @@ async function getProducts(req: Request, res: Response, next: NextFunction) {
             .lean()
 
         // lean product convert _id to id (don't let client know server use Mongoose)
-        const leanProducts = products.map(product => ({ id: String(product._id), ...product, _id: undefined }))
+        const leanProducts = products.map(product => leanProduct(product))
 
         res.json(leanProducts)
     } catch (error) {
@@ -54,9 +57,9 @@ async function getProductById(req: Request, res: Response, next: NextFunction) {
             throw new ErrorRes('Product not found', 404)
         }
         // convert _id to id (don't let client know server use Mongoose)
-        const leanProduct = { id: String(product._id), ...product, _id: undefined }
+        const lean = leanProduct(product)
 
-        res.json(leanProduct)
+        res.json(lean)
     } catch (error) {
         next(error)
     }
@@ -71,7 +74,7 @@ async function getProductByCategory(req: Request, res: Response, next: NextFunct
         const skip = (page - 1) * limit;
 
         if (!category) {
-            throw new ErrorRes('Not found relevant products', 404, { category: 'category is required in params request' })
+            throw new ErrorRes('Category is required in params request', 422)
         }
 
         const products = await Product.find({ category })
@@ -79,11 +82,9 @@ async function getProductByCategory(req: Request, res: Response, next: NextFunct
             .select('-__v')
             .lean()
 
-        if (products.length === 0) {
-            throw new ErrorRes('Not found relevant products', 404)
-        }
+        const leanProducts = products.map(product => leanProduct(product))
 
-        res.json(products);
+        res.json(leanProducts);
     } catch (error) {
         next(error)
     }

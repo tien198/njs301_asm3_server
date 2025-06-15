@@ -3,10 +3,7 @@ import { Types } from "mongoose"
 export default interface IProduct {
     _id: Types.ObjectId
     name: string
-    category: {
-        _id: Types.ObjectId
-        name: string
-    }
+    category: string
     img1: string
     img2: string
     img3: string

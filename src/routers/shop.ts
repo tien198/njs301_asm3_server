@@ -16,7 +16,7 @@ router.get('/product/:id', shopCtrl.getProductById);
 router.get('/find-by-category/:category', shopCtrl.getProductByCategory);
 // add to cart
 router.use(isAuthMw)
-router.post('/add-to-cart', addToCartValidatorMw, shopCtrl.addToCart);
+router.post('/add-to-cart', shopCtrl.addToCart);
 router.get('/cart', shopCtrl.getCart);
 router.post('/create-order', createOrderValidatorMw, shopCtrl.createOrder);
 router.get('/orders', shopCtrl.getOrders);
