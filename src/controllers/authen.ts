@@ -5,6 +5,7 @@ import User from '../models/user/index.js';
 import ErrorRes from '../models/errorRes.js';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 import IAuthError from '../interfaces/response/error/authError.js';
+import UserDTO from '../DTO/user.js';
 
 
 async function login(req: Request, res: Response, next: NextFunction) {
@@ -33,7 +34,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
         req.session.save()
 
         res.json({
-            user: { ...req.session.user, cart: undefined }
+            user: new UserDTO(user)
         });
 
     } catch (error) {
@@ -71,7 +72,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
         req.session.save()
 
         res.status(201).json({
-            user: { ...req.session.user, cart: undefined }
+            user: new UserDTO(user)
         });
 
     } catch (error) {

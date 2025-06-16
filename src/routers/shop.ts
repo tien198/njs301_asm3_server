@@ -22,4 +22,4 @@ router.post('/create-order', createOrderValidatorMw, shopCtrl.createOrder);
 router.get('/orders', shopCtrl.getOrders);
 router.get('/order/:id', shopCtrl.getOrderById);
 
-export default router; 
+export default router;

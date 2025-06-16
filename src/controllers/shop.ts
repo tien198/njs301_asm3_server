@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express'
+import type { HydratedDocument, FlattenMaps } from 'mongoose';
 import type IUser from '../interfaces/user/user.js';
 import type { IUserMethods } from '../interfaces/user/index.js';
 import type IProduct from '../interfaces/product/product.js';
-import type { FlattenMaps, HydratedDocument } from 'mongoose';
 import type IOrderItem from '../interfaces/order/orderItem.js';
 
 import Product from '../models/product.js';
@@ -14,9 +14,11 @@ import { validationResult } from 'express-validator';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 import MailTransporter from '../models/mailTransporter.js';
 import orderInformMail from '../ultilities/mailTemplates/orderInfrom.js';
+import ICartItem from '../interfaces/user/cartItem.js';
+import CartItemDTO from '../DTO/cartItem.js';
+import ProductDTO from '../DTO/product.js';
+import OrderDTO from '../DTO/order.js';
 
-
-const leanProduct = (product: FlattenMaps<IProduct>) => ({ id: String(product._id), ...product, _id: undefined })
 
 async function getCountProducts(req: Request, res: Response, next: NextFunction) {
     try {
@@ -39,9 +41,9 @@ async function getProducts(req: Request, res: Response, next: NextFunction) {
             .lean()
 
         // lean product convert _id to id (don't let client know server use Mongoose)
-        const leanProducts = products.map(product => leanProduct(product))
+        const productsDTO = products.map(product => new ProductDTO(product))
 
-        res.json(leanProducts)
+        res.json(productsDTO)
     } catch (error) {
         next(error)
     }
@@ -57,9 +59,9 @@ async function getProductById(req: Request, res: Response, next: NextFunction) {
             throw new ErrorRes('Product not found', 404)
         }
         // convert _id to id (don't let client know server use Mongoose)
-        const lean = leanProduct(product)
+        const productDTO = new ProductDTO(product)
 
-        res.json(lean)
+        res.json(productDTO)
     } catch (error) {
         next(error)
     }
@@ -82,9 +84,9 @@ async function getProductByCategory(req: Request, res: Response, next: NextFunct
             .select('-__v')
             .lean()
 
-        const leanProducts = products.map(product => leanProduct(product))
+        const productsDTO = products.map(product => new ProductDTO(product))
 
-        res.json(leanProducts);
+        res.json(productsDTO);
     } catch (error) {
         next(error)
     }
@@ -148,12 +150,14 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
             cart = queries.cart
         }
 
-        const cartWithProductInfors = products.map((p, index) => ({
+        const prodsInCart = products.map((p, index) => new CartItemDTO({
             ...p,
-            quantity: cart[index].quantity
-        }))
+            productId: p._id,
+            quantity: cart[index].quantity,
+            lineTotal: +p.price * cart[index].quantity
+        } as ICartItem))
 
-        res.json({ cart: cartWithProductInfors })
+        res.json(prodsInCart)
     } catch (error) {
         next(error)
     }
@@ -178,6 +182,7 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
             imageUrl: p.img1,
             lineTotal: +p.price * cart[index].quantity
         }))
+
         const createdDoc = await Order.create({
             userId: req.session.user!.id,
             userName: req.session.user!.name,
@@ -206,9 +211,10 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
 async function getOrders(req: Request, res: Response, next: NextFunction) {
     try {
         const orders = await Order.find({ userId: req.session.user!.id })
-            .select('userId userName  shippingTracking.phone shippingTracking.address shippingTracking.status status')
+            .select('userId userName items shippingTracking.phone shippingTracking.address shippingTracking.status status totalPrice')
             .lean()
-        res.json(orders)
+        const ordersDTO = orders.map(order => new OrderDTO(order))
+        res.json(ordersDTO)
     } catch (error) {
         next(error)
     }
@@ -217,9 +223,10 @@ async function getOrders(req: Request, res: Response, next: NextFunction) {
 async function getOrderById(req: Request, res: Response, next: NextFunction) {
     try {
         const order = await Order.findById(req.params.id)
-            .select('userId userName  shippingTracking.phone shippingTracking.address totalPrice items.productId items.name items.priceInOrderTime items.quantity items.imageUrl items.lineTotal')
+            .select('userId userName items shippingTracking.phone shippingTracking.address shippingTracking.status status totalPrice')
             .lean()
-        res.json(order)
+        const orderDTO = order ? new OrderDTO(order) : null
+        res.json(orderDTO)
     } catch (error) {
         next(error)
     }
