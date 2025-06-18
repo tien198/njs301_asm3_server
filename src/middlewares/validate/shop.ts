@@ -10,14 +10,16 @@ export const addToCartValidatorMw = [
 ]
 
 export const createOrderValidatorMw = [
-    body('fullName').trim()
+    body('shippingTracking.fullName').trim()
         .notEmpty().withMessage('Full name is required').bail(),
-    body('email').trim()
+    body('shippingTracking.email').trim()
         .notEmpty().withMessage('Email is required').bail()
         .isEmail().withMessage('Invalid email').bail(),
-    body('phone').trim()
+    body('shippingTracking.phone').trim()
         .notEmpty().withMessage('Phone is required').bail()
         .isMobilePhone('vi-VN').withMessage('Invalid phone number').bail(),
-    body('address').trim()
-        .notEmpty().withMessage('Address is required').bail()
+    body('shippingTracking.address').trim()
+        .notEmpty().withMessage('Address is required').bail(),
+
+    body('items').isArray({ min: 1 }).withMessage('Items must be an array and at least 1 item').bail()
 ]

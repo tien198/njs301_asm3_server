@@ -1,5 +1,5 @@
 import { FlattenMaps } from "mongoose"
-import { ICartItem } from "../../interfaces/user/user"
+import ICartItem from "../../interfaces/user/cartItem"
 import Product from "../../models/product"
 import { IProduct } from "../../interfaces/product"
 

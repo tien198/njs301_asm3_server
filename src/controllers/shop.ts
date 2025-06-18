@@ -18,6 +18,7 @@ import ICartItem from '../interfaces/user/cartItem.js';
 import CartItemDTO from '../DTO/cartItem.js';
 import ProductDTO from '../DTO/product.js';
 import OrderDTO from '../DTO/order.js';
+import IShippingTracking from '../interfaces/order/shippingTracking.js';
 
 
 async function getCountProducts(req: Request, res: Response, next: NextFunction) {
@@ -145,7 +146,7 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
         let products: FlattenMaps<IProduct>[] = []
         if (cart.length > 0) {
             // ./utils/queryProducts.ts
-            const queries = await queryProducts(cart)
+            const queries = await queryProducts(cart as any)
             products = queries.products
             cart = queries.cart
         }
@@ -163,6 +164,11 @@ async function getCart(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+type OrderBody = {
+    shippingTracking: IShippingTracking // { fullName: string, email: string, phone: string, address: string }
+    items: ICartItem[] // { productId: string; quantity: number }
+}
+
 async function createOrder(req: Request, res: Response, next: NextFunction) {
     try {
         const errors = validationResult(req)
@@ -170,9 +176,9 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
             throw new ErrorRes('Invalid request', 422, createErrorRes(errors))
         }
 
-        const { fullName, email, phone, address } = req.body
+        const { shippingTracking, items } = req.body as OrderBody
 
-        const { products, cart } = await queryProducts(req.session.user!.cart)
+        const { products, cart } = await queryProducts(items)
         const orderItems: IOrderItem[] = products.map((p, index) => ({
             productId: p._id,
             name: p.name,
@@ -188,13 +194,13 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
             userName: req.session.user!.name,
             totalPrice: products.reduce((acc, p, index) => acc + +p.price * cart[index].quantity, 0),
             items: orderItems,
-            shippingTracking: { fullName, email, phone, address },
+            shippingTracking,
         })
 
 
         // run the folowing in the next tick
-        MailTransporter.sendHtmlMail(email, 'Order Confirmation', orderInformMail(createdDoc))
-        if (req.session.user!.email !== email) {
+        MailTransporter.sendHtmlMail(shippingTracking.email, 'Order Confirmation', orderInformMail(createdDoc))
+        if (req.session.user!.email !== shippingTracking.email) {
             // send order confirmation to the email provided in the order
             MailTransporter.sendHtmlMail(req.session.user!.email, 'Order Confirmation', orderInformMail(createdDoc))
         }
