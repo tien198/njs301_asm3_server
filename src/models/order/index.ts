@@ -1,6 +1,6 @@
 import type { IOrderMethods, IOrderModel } from '../../interfaces/order/index.ts';
-import type IOrderItem from '../../interfaces/order/orderItem.ts';
-import type IOrder from '../../interfaces/order/order.ts';
+import type { IOrderItem } from '../../interfaces/order/orderItem.ts';
+import type { IOrder } from '../../interfaces/order/order.ts';
 
 import mongoose, { Schema } from 'mongoose';
 import OrderItemSchema from './orderItem.js';

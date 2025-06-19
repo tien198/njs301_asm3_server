@@ -1,7 +1,7 @@
 /**
  * Product errors response
  */
-export default interface IProdError {
+export interface IProdError {
     // validate input
     prodId?: string
     title?: string

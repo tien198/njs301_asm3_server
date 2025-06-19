@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 
-export default interface IProduct {
+export interface IProduct {
     _id: Types.ObjectId
     name: string
     category: string

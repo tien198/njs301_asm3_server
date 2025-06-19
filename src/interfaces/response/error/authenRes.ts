@@ -1,3 +1,3 @@
-export default interface IAuthRes {
+export interface IAuthRes {
     credential?: string             // credential relevant infor
 }

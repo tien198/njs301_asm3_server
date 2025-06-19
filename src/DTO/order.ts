@@ -1,6 +1,6 @@
-import type IOrder from "../interfaces/order/order.js";
-import type IOrderItem from "../interfaces/order/orderItem.js";
-import IShippingTracking from "../interfaces/order/shippingTracking.js";
+import type { IOrder } from "../interfaces/order/order.js";
+import type { IOrderItem } from "../interfaces/order/orderItem.js";
+import type { IShippingTracking } from "../interfaces/order/shippingTracking.js";
 
 export default class OrderDTO implements Partial<IOrder> {
     id: string;
@@ -16,7 +16,7 @@ export default class OrderDTO implements Partial<IOrder> {
     paidAt?: Date;
 
     constructor(order: IOrder) {
-        this.id = order._id.toString();
+        this.id = String(order._id);
         this.userName = order.userName;
         this.shippingTracking = order.shippingTracking;
         this.items = order.items;

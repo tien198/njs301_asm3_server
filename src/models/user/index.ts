@@ -1,4 +1,4 @@
-import type IUser from '../../interfaces/user/user.js';
+import type { IUser } from '../../interfaces/user/user.js';
 import type { IUserMethods, IUserModel } from '../../interfaces/user/index.js';
 
 import { model, Schema } from 'mongoose';
@@ -19,7 +19,7 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
     name: { type: String, trim: true },
     phone: { type: Schema.Types.String },
     avatarUrl: { type: String },
-    role: { type: String, enum: ['admin', 'user'], default: 'user' },
+    role: { type: String, enum: ['admin', 'consultant', 'user'], default: 'user' },
     cart: { type: [CartItemSchema], default: [] }
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps

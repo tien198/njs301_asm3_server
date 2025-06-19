@@ -6,9 +6,12 @@ export function envValidate() {
     if (!process.env.MONGO_URI)
         throw new Error('MONGO_URI is not set')
 
-    //  Client url
-    if (!process.env.CLIENT_URL)
+    //  Cors
+    if (!process.env.CLIENT_APP_URL)
         throw new Error('CLIENT_URL is not set')
+
+    if (!process.env.ADMIN_APP_URL)
+        throw new Error('ADMIN_APP_URL is not set')
 
     // Session
     if (!process.env.SESSION_SECRET)

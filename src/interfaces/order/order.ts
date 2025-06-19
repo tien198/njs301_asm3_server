@@ -1,10 +1,10 @@
 import type { Types } from "mongoose";
-import type IOrderItem from "./orderItem.ts";
-import type IShippingTracking from "./shippingTracking.ts";
+import type { IOrderItem } from "./orderItem.ts";
+import type { IShippingTracking } from "./shippingTracking.ts";
 
 
 
-export default interface IOrder {
+export interface IOrder {
     _id: Types.ObjectId;
     userId: Types.ObjectId; // ordered user
     userName: string;

@@ -1,7 +1,7 @@
 import type { HydratedDocument, Model } from "mongoose";
-import type IChatSession from "./chatSession.ts";
-import type IMessage from "./message.ts";
-import type IUser from "../user/user.ts";
+import type { IChatSession } from "./chatSession.ts";
+import type { IMessage } from "./message.ts";
+import type { IUser } from "../user/user.ts";
 
 
 export type { IChatSession, IMessage }

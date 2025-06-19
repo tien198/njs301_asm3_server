@@ -1,4 +1,4 @@
-import type IOrderItem from "../../interfaces/order/orderItem.js";
+import type { IOrderItem } from "../../interfaces/order/orderItem.js";
 
 import { Schema } from "mongoose";
 

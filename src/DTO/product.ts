@@ -1,8 +1,7 @@
-import type { Types } from "mongoose";
 import type { IProduct } from "../interfaces/product";
 
 export default class ProductDTO implements Partial<IProduct> {
-    id: Types.ObjectId;
+    id: string;
     name: string;
     price: number;
     category: string;
@@ -14,7 +13,7 @@ export default class ProductDTO implements Partial<IProduct> {
     short_desc: string
 
     constructor(product: IProduct) {
-        this.id = product._id;
+        this.id = String(product._id);
         this.name = product.name;
         this.price = +product.price;
         this.category = product.category;

@@ -1,9 +1,9 @@
 import type { Model } from "mongoose";
-import type IOrder from "./order.ts";
-import type IOrderItem from './orderItem.ts'
-import type IShippingAddress from "./shippingTracking.js";
-
-export type { IOrder, IOrderItem, IShippingAddress }
+import type { IOrder } from "./order.ts";
+import type { IOrderItem } from './orderItem.ts'
+import type { IShippingTracking } from "./shippingTracking.ts";
+2
+export type { IOrder, IOrderItem, IShippingTracking }
 
 // Add useful instance methods
 export interface IOrderMethods {

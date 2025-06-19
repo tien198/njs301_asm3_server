@@ -1,4 +1,4 @@
-import type IShippingTracking from "../../interfaces/order/shippingTracking.js";
+import type { IShippingTracking } from "../../interfaces/order/shippingTracking.js";
 
 import { Schema } from "mongoose";
 

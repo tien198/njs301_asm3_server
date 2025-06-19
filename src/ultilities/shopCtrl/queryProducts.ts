@@ -1,7 +1,9 @@
-import { FlattenMaps } from "mongoose"
-import ICartItem from "../../interfaces/user/cartItem"
+import type { ICartItem } from "../../interfaces/user/cartItem"
+import type { FlattenMaps } from "mongoose"
+import type { IProduct } from "../../interfaces/product"
+
+
 import Product from "../../models/product"
-import { IProduct } from "../../interfaces/product"
 
 /**
  * Query products from the cart

@@ -1,6 +1,6 @@
 import type { Types } from "mongoose";
 
-export default interface IChatSession {
+export interface IChatSession {
     isActive: boolean;
     name?: string;
     participants: Types.ObjectId[];

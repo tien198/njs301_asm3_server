@@ -1,7 +1,7 @@
+import type { IMessage } from '../../interfaces/chatSession/message.ts';
 import { Schema, model } from 'mongoose';
-import type Message from '../../interfaces/chatSession/message.ts';
 
-const messageSchema = new Schema<Message>({
+const messageSchema = new Schema<IMessage>({
     sender: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     senderName: { type: String, required: true },
     content: { type: String, required: true },
@@ -9,6 +9,6 @@ const messageSchema = new Schema<Message>({
     status: { type: String, enum: ['sent', 'delivered', 'read'], default: 'sent' }
 });
 
-const MessageModel = model<Message>('Message', messageSchema);
+const MessageModel = model<IMessage>('Message', messageSchema);
 
 export default MessageModel;

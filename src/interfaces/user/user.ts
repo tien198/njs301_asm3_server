@@ -5,7 +5,7 @@ interface ICartItem {
     quantity: number;
 }
 
-export default interface IUser {
+export interface IUser {
     _id: Types.ObjectId;
     email: string;
     password: string;

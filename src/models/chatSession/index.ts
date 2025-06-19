@@ -1,6 +1,6 @@
-import type IChatSession from "../../interfaces/chatSession/chatSession.ts";
-import type IUser from "../../interfaces/user/user.ts";
-import type Message from "../../interfaces/chatSession/message.ts";
+import type { IChatSession } from "../../interfaces/chatSession/chatSession.ts";
+import type { IUser } from "../../interfaces/user/user.ts";
+import type { IMessage } from "../../interfaces/chatSession/message.ts";
 import type { IChatSessionMethod, IChatSessionModel } from "../../interfaces/chatSession/index.ts";
 
 import mongoose, { Schema, Types, type HydratedDocument } from "mongoose";
@@ -15,14 +15,14 @@ const ChatSessionSchema = new Schema<IChatSession, IChatSessionModel, IChatSessi
     endedAt: { type: String }
 }, {
     methods: {
-        fetchMessages: async function (page: number, pageSize: number): Promise<Message[]> {
+        fetchMessages: async function (page: number, pageSize: number): Promise<IMessage[]> {
             return await MessageModel.find({ session: this._id })
                 .sort({ createdAt: -1 })
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .exec();
         },
-        sendMessage: async function (sender: HydratedDocument<IUser>, content: string): Promise<HydratedDocument<Message>> {
+        sendMessage: async function (sender: HydratedDocument<IUser>, content: string): Promise<HydratedDocument<IMessage>> {
 
             const newMessage = new MessageModel({
                 session: this._id,

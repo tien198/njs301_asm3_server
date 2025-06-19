@@ -3,7 +3,7 @@ import shopCtrl from '../controllers/shop.js';
 import { isAuthMw } from '../middlewares/identityMw.js';
 
 // validator Mw
-import { addToCartValidatorMw, createOrderValidatorMw } from '../middlewares/validate/shop.js';
+import { createOrderValidatorMw } from '../middlewares/validate/shop.js';
 
 const router = Router();
 

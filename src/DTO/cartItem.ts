@@ -1,10 +1,9 @@
 import type { Types } from "mongoose";
-import { IProduct } from "../interfaces/product";
-import ICartItem from "../interfaces/user/cartItem";
+import { ICartItem } from "../interfaces/user/cartItem";
 
 // Item trong đơn hàng
-export default class CartItemDTO implements Partial<ICartItem> {
-    productId: Types.ObjectId; // ID sản phẩm
+export default class CartItemDTO implements Omit<ICartItem, 'productId'> {
+    productId: string; // ID sản phẩm
     name: string;
     price: number; // Giá sản phẩm tại thời điểm đặt hàng
     quantity: number;  // Số lượng mua
@@ -18,7 +17,7 @@ export default class CartItemDTO implements Partial<ICartItem> {
     lineTotal: number; // priceInOrderTime * quantity
 
     constructor(product: ICartItem) {
-        this.productId = product.productId;
+        this.productId = String(product.productId);
         this.name = product.name;
         this.price = +product.price;
         this.quantity = product.quantity;

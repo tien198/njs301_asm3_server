@@ -1,3 +1,3 @@
-export default interface IShopError{
+export interface IShopError {
     notFoundCart?: string
 }

@@ -1,4 +1,4 @@
-import type IUser from "../interfaces/user/user.js";
+import type { IUser } from "../interfaces/user/user.js";
 
 export default class UserDTO implements Partial<IUser> {
     email: string;

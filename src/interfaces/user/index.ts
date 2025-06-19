@@ -1,5 +1,5 @@
 import type { HydratedDocument, Model } from "mongoose";
-import type IUser from "./user.ts";
+import type { IUser } from "./user.ts";
 
 
 

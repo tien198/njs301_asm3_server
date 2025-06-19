@@ -1,4 +1,4 @@
-export default interface ICategory {
+export interface ICategory {
     name: string;
     slug: string;               // URL-friendly version of name, ví dụ: "ao-thun"
 

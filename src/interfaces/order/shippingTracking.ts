@@ -1,5 +1,5 @@
 // Shipping tracking
-export default interface IShippingTracking {
+export interface IShippingTracking {
     fullName: string;
     email: string;
     phone: string;

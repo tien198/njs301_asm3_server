@@ -1,9 +1,11 @@
 import type { Request, Response, NextFunction } from 'express'
 import type { HydratedDocument, FlattenMaps } from 'mongoose';
-import type IUser from '../interfaces/user/user.js';
+import type { IUser } from '../interfaces/user/user.js';
 import type { IUserMethods } from '../interfaces/user/index.js';
-import type IProduct from '../interfaces/product/product.js';
-import type IOrderItem from '../interfaces/order/orderItem.js';
+import type { ICartItem } from '../interfaces/user/cartItem.js';
+import type { IProduct } from '../interfaces/product/product.js';
+import type { IShippingTracking } from '../interfaces/order/shippingTracking.js';
+import type { IOrderItem } from '../interfaces/order/orderItem.js';
 
 import Product from '../models/product.js';
 import User from '../models/user/index.js';
@@ -14,11 +16,9 @@ import { validationResult } from 'express-validator';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 import MailTransporter from '../models/mailTransporter.js';
 import orderInformMail from '../ultilities/mailTemplates/orderInfrom.js';
-import ICartItem from '../interfaces/user/cartItem.js';
 import CartItemDTO from '../DTO/cartItem.js';
 import ProductDTO from '../DTO/product.js';
 import OrderDTO from '../DTO/order.js';
-import IShippingTracking from '../interfaces/order/shippingTracking.js';
 
 
 async function getCountProducts(req: Request, res: Response, next: NextFunction) {

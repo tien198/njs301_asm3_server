@@ -1,6 +1,6 @@
 import type { Types } from "mongoose";
 
-export default interface IMessage {
+export interface IMessage {
     sender: Types.ObjectId; // userId 
     senderName: string
     content: string;

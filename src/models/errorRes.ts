@@ -1,4 +1,4 @@
-import type IRes from "../interfaces/response/response.ts";
+import type { IRes } from "../interfaces/response/response.ts";
 
 export default class ErrorRes<T extends object = object> extends Error implements IRes {
     status: number = 500;

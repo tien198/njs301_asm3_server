@@ -14,7 +14,7 @@ import shopRouter from './routers/shop';
 
 const app = express()
 
-const whiteList = [process.env.CLIENT_URL]
+const whiteList = [process.env.CLIENT_APP_URL, process.env.ADMIN_APP_URL]
 // library middlewares
 app.use(
     cors({
@@ -68,7 +68,14 @@ envValidate();
         await User.create({
             email: 'admin@gmail.com',
             password: bcrypt.hashSync('123456', Number(process.env.SALT_LENGTH) || 10),
-            name: 'Admin'
+            name: 'Admin',
+            role: 'admin'
+        })
+        await User.create({
+            email: 'consultant@gmail.com',
+            password: bcrypt.hashSync('123456', Number(process.env.SALT_LENGTH) || 10),
+            name: 'Consultant',
+            role: 'consultant'
         })
     }
 })()

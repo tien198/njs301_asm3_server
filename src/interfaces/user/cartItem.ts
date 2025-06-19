@@ -1,8 +1,8 @@
 import type { Types } from "mongoose";
-import type IProduct from "../product/product";
+import type { IProduct } from "../product/product";
 
 // Item trong đơn hàng
-export default interface ICartItem extends Partial<IProduct> {
+export interface ICartItem extends Partial<IProduct> {
     productId: Types.ObjectId; // ID sản phẩm
     name: string;
     category: string; // Danh mục sản phẩm
