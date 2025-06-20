@@ -122,7 +122,7 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
         try {
             user = await User.findById(req.session.user?.id)
         } catch (error) {
-            throw new ErrorRes('User not found', 404)
+            throw new ErrorRes('Failed to connect MongoDb', 500)
         }
 
         if (!user) {
@@ -138,6 +138,37 @@ async function addToCart(req: Request, res: Response, next: NextFunction) {
     } catch (error) {
         next(error)
     }
+}
+
+async function removeFromCart(req: Request, res: Response, next: NextFunction) {
+    try {
+        const prodId = req.params.productId
+
+        if (!prodId) {
+            throw new ErrorRes('Invalid request', 422, { productId: '"productId" request param is required' })
+        }
+
+        let user: HydratedDocument<IUser, IUserMethods> | null = null
+        try {
+            user = await User.findById(req.session.user?.id)
+        } catch (error) {
+            throw new ErrorRes('Failed to connect MongoDb', 500)
+        }
+
+        if (!user) {
+            return next(new ErrorRes('User not found', 404))
+        }
+
+        const updatedUser = await user.removeFromCart(prodId)
+
+        req.session.user = updatedUser.toJSON()
+        await req.session.save()
+
+        res.json({ message: 'Product removed from cart' })
+    } catch (error) {
+        next(error)
+    }
+
 }
 
 async function getCart(req: Request, res: Response, next: NextFunction) {
@@ -240,4 +271,4 @@ async function getOrderById(req: Request, res: Response, next: NextFunction) {
 
 
 
-export default { getCountProducts, getProducts, getProductById, getProductByCategory, addToCart, getCart, createOrder, getOrders, getOrderById }
+export default { getCountProducts, getProducts, getProductById, getProductByCategory, addToCart, removeFromCart, getCart, createOrder, getOrders, getOrderById }

@@ -1,9 +1,11 @@
+import { Types } from "mongoose";
 import type { IOrder } from "../interfaces/order/order.js";
 import type { IOrderItem } from "../interfaces/order/orderItem.js";
 import type { IShippingTracking } from "../interfaces/order/shippingTracking.js";
 
-export default class OrderDTO implements Partial<IOrder> {
+export default class OrderDTO implements Partial<Omit<IOrder, 'userId'>> {
     id: string;
+    userId: string;
     userName: string;
     shippingTracking: IShippingTracking;
     items: IOrderItem[];
@@ -17,6 +19,7 @@ export default class OrderDTO implements Partial<IOrder> {
 
     constructor(order: IOrder) {
         this.id = String(order._id);
+        this.userId = String(order.userId)
         this.userName = order.userName;
         this.shippingTracking = order.shippingTracking;
         this.items = order.items;

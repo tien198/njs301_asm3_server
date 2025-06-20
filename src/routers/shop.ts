@@ -14,10 +14,12 @@ router.get('/products', shopCtrl.getProducts);
 router.get('/product/:id', shopCtrl.getProductById);
 // find relevant products
 router.get('/find-by-category/:category', shopCtrl.getProductByCategory);
-// add to cart
+// cart
 router.use(isAuthMw)
-router.post('/add-to-cart', shopCtrl.addToCart);
 router.get('/cart', shopCtrl.getCart);
+router.post('/cart', shopCtrl.addToCart);
+router.delete('/cart/:productId', shopCtrl.removeFromCart);
+// orders
 router.post('/create-order', createOrderValidatorMw, shopCtrl.createOrder);
 router.get('/orders', shopCtrl.getOrders);
 router.get('/order/:id', shopCtrl.getOrderById);

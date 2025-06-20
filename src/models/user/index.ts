@@ -62,6 +62,17 @@ const UserSchema = new Schema<IUser, IUserModel, IUserMethods>({
 
             return await this.save()
         },
+
+        async removeFromCart(productId) {
+            const itemIndex = this.cart.findIndex(i => i.productId.toString() === productId);
+            if (itemIndex === -1) {
+                return this; // Item not found, return the user as is
+            }
+            else {
+                this.cart.splice(itemIndex, 1); // Remove the item from the cart
+                return await this.save(); // Save the updated user document
+            }
+        }
     }
 });
 
