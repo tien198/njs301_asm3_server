@@ -7,6 +7,7 @@ import User from '../models/user/index.js';
 import ErrorRes from '../models/errorRes.js';
 import { createErrorRes } from '../ultilities/exValidator/createErrorRes.js';
 import UserDTO from '../DTO/user.js';
+import { IUser } from '../interfaces/user/user.js';
 
 
 async function login(req: Request, res: Response, next: NextFunction) {
@@ -82,6 +83,29 @@ async function signup(req: Request, res: Response, next: NextFunction) {
 };
 
 
+async function getAuthStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+        if (!req.session.user || req.session.user!.role !== 'admin') {
+            throw new ErrorRes('Unauthorize', 401, { message: "Unauthorize, please login to continuon" });
+        }
+        res.json({
+            user: new UserDTO(req.session.user as IUser)
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function logout(req: Request, res: Response, next: NextFunction) {
+    // Destroy session
+    req.session.destroy((err) => {
+        if (err) {
+            return next(new ErrorRes('Logout failed', 500, { message: "Failed to logout" }));
+        }
+        res.json({ message: "Logged out successfully" });
+    });
+}
+
 
 async function resetPassword(req: Request, res: Response, next: NextFunction) {
     try {
@@ -113,4 +137,4 @@ async function resetPassword(req: Request, res: Response, next: NextFunction) {
 
 
 
-export default { login, signup, resetPassword }
+export default { login, signup, logout, getAuthStatus, resetPassword }

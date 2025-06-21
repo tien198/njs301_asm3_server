@@ -1,6 +1,7 @@
 import type ErrorRes from './models/errorRes';
 import type { Request, Response, NextFunction } from 'express';
 
+import path from 'path'
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
@@ -13,6 +14,8 @@ import shopRouter from './routers/shop';
 
 
 const app = express()
+app.use(express.static('public'));
+
 
 const whiteList = [process.env.CLIENT_APP_URL, process.env.ADMIN_APP_URL]
 // library middlewares
@@ -33,6 +36,9 @@ app.use(
 // custom middlewares
 app.use(sessionMw())
 
+app.use((req: Request, res: Response, next: NextFunction)=> {
+    setTimeout(()=> next(), 3000)
+})
 
 // routers
 app.use('/api/auth', authenRouter);

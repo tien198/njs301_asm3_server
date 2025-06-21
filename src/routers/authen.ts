@@ -9,6 +9,8 @@ router.use(express.json());
 // Routes
 router.post('/login', LoginValidatorMw, authenCtrl.login);
 router.post('/signup', SignupValidatorMw, authenCtrl.signup);
+router.post('/logout', authenCtrl.logout);
+router.get('/status', authenCtrl.getAuthStatus);
 router.post('/resetpass', ResetPasswordValidatorMw, authenCtrl.resetPassword);
 
 export default router;
