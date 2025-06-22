@@ -71,7 +71,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
 
         // Set session
         req.session.user = user.toJSON()
-        req.session.save()
+        await req.session.save()
 
         res.status(201).json({
             user: new UserDTO(user)

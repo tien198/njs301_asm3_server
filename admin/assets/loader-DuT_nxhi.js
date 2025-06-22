@@ -1,0 +1,1 @@
+import{d as e}from"./index-BFjhfKJQ.js";import{S as t}from"./serverAPIs-CE7q1U8L.js";async function s(){try{const r=await fetch(t.getStatus,{credentials:"include"});return r.ok?await r.json():void 0}catch(r){throw console.error(r),e({message:"Failed to connect to server! Please check your network!"},{status:500})}}export{s as loader};

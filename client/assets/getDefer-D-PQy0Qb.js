@@ -1,0 +1,1 @@
+async function d({url:f,includeCookie:h=!1,token:u,actionInFail:s,actionInError:r}){try{const e={};u&&(e.authorization=u);const t=await fetch(f,{headers:e,credentials:h?"include":"same-origin"});return t.ok?await t.json():(s==null||s(t),null)}catch(e){return r==null||r(e),console.error(e),null}}export{d as g};

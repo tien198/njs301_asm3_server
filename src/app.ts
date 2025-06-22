@@ -2,7 +2,7 @@ import type ErrorRes from './models/errorRes';
 import type { Request, Response, NextFunction } from 'express';
 
 import path from 'path'
-import express from 'express'
+import express, { Router } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
@@ -10,15 +10,23 @@ dotenv.config()
 import authenRouter from './routers/authen';
 import sessionMw from './middlewares/sessionMw';
 import shopRouter from './routers/shop';
+import adminRouter from './routers/admin';
 
 
 
 const app = express()
 app.use(express.static('public'));
 app.use(express.static('client'));
+app.use('/admin', express.static('admin'));
 
+
+// Set routing for clientApp and adminApp 
 app.get(/^(?!\/api).*/, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
+
+});
+app.get(/^\/admin\/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'admin', 'index.html'));
 });
 
 
@@ -41,12 +49,12 @@ app.use(
 // custom middlewares
 app.use(sessionMw())
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-    setTimeout(() => next(), 1500)
-})
+
 
 // routers
 app.use('/api/auth', authenRouter);
+app.use((req, res, next) => { setTimeout(() => next(), 1500) })
+app.use('/api/admin', adminRouter);
 app.use('/api/shop', shopRouter);
 
 
