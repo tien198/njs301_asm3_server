@@ -56,7 +56,7 @@ OrderSchema.methods = {
 
 
 // Add indexes for better query performance
-OrderSchema.index({ userId: 1, createdAt: -1 });
+OrderSchema.index({ createdAt: -1 });
 OrderSchema.index({ status: 1 });
 OrderSchema.index({ trackingNumber: 1 });
 OrderSchema.index({ 'items.category._id': 1 });

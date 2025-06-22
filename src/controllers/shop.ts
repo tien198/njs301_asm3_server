@@ -247,8 +247,14 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
 
 async function getOrders(req: Request, res: Response, next: NextFunction) {
     try {
+        const page = +req.query.page! || 1
+        const limit = +req.query.limit! || 10
+        const skip = (page - 1) * limit
+
         const orders = await Order.find({ userId: req.session.user!.id })
             .select('userId userName items shippingTracking.phone shippingTracking.address shippingTracking.status status totalPrice')
+            .skip(skip).limit(limit)
+            .sort({ createdAt: -1 }) // Sort by creation date, newest first
             .lean()
         const ordersDTO = orders.map(order => new OrderDTO(order))
         res.json(ordersDTO)
