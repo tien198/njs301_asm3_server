@@ -7,6 +7,9 @@ export function envValidate() {
         throw new Error('MONGO_URI is not set')
 
     //  Cors
+    if (!process.env.SAME_ORIGIN)
+        throw new Error('SAME_ORIGIN is not set')
+
     if (!process.env.CLIENT_APP_URL)
         throw new Error('CLIENT_URL is not set')
 

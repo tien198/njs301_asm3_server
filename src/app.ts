@@ -15,9 +15,14 @@ import shopRouter from './routers/shop';
 
 const app = express()
 app.use(express.static('public'));
+app.use(express.static('client'));
+
+app.get(/^(?!\/api).*/, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
+});
 
 
-const whiteList = [process.env.CLIENT_APP_URL, process.env.ADMIN_APP_URL]
+const whiteList = [process.env.CLIENT_APP_URL, process.env.ADMIN_APP_URL, process.env.SAME_ORIGIN]
 // library middlewares
 app.use(
     cors({
@@ -36,8 +41,8 @@ app.use(
 // custom middlewares
 app.use(sessionMw())
 
-app.use((req: Request, res: Response, next: NextFunction)=> {
-    setTimeout(()=> next(), 3000)
+app.use((req: Request, res: Response, next: NextFunction) => {
+    setTimeout(() => next(), 1500)
 })
 
 // routers
