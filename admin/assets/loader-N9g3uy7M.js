@@ -1,0 +1,1 @@
+import{S as e}from"./serverAPIs-Cnz0yY_0.js";async function o(){try{const r=await fetch(e.getStatus,{credentials:"include"});return r.ok?await r.json():void 0}catch(r){console.error(r);return}}export{o as loader};

@@ -1,1 +1,0 @@
-import{r as t}from"./index-BFjhfKJQ.js";import{S as e}from"./serverAPIs-CE7q1U8L.js";async function o(r){return await fetch(e.products+r.params.id,{method:"DELETE",credentials:"include"}),t("/")}export{o as action};

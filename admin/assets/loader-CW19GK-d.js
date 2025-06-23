@@ -1,1 +1,0 @@
-import{S as t}from"./serverAPIs-CE7q1U8L.js";async function s(r,o=!1,n){const e=await fetch(r,{headers:{},credentials:o?"include":"same-origin"});if(!e.ok)throw new Error("Failed to fetch products");return await e.json()}function u(){try{return{products:s(t.products,!0)}}catch(r){return console.error(r),{products:Promise.resolve(null)}}}export{u as loader};
