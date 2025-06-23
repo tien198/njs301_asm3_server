@@ -13,13 +13,13 @@ export function envValidate() {
     //  Cors
     if (!process.env.SAME_ORIGIN)
         throw new Error('SAME_ORIGIN is not set')
-
+/*
     if (!process.env.CLIENT_APP_URL)
         throw new Error('CLIENT_URL is not set')
 
     if (!process.env.ADMIN_APP_URL)
         throw new Error('ADMIN_APP_URL is not set')
-
+*/
     // Session
     if (!process.env.SESSION_SECRET)
         throw new Error('SESSION_SECRET is not set')

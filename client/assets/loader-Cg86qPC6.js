@@ -1,0 +1,1 @@
+import{g as o}from"./getDefer-D-PQy0Qb.js";import{S as e}from"./serverAPIs-C1khi3Tm.js";import{l as t}from"./logoAnimationAcceptDispath-DZ8qXP9U.js";import"./index-BqrMT8t0.js";function n(r){return t(!1),{order:o({url:e.getOrderById+"/"+r.params.id,includeCookie:!0})}}export{n as loader};
