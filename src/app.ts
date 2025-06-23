@@ -80,7 +80,7 @@ envValidate();
 (async function () {
     await mongoose.connect(process.env.MONGO_URI!)
 
-    app.listen(5000, () => console.log('Server is running on port 5000'))
+    app.listen(process.env.SERVER_PORT, () => console.log('Server is running on port 5000'))
 
     const user = await User.findOne({ email: 'admin@gmail.com' })
     if (!user) {

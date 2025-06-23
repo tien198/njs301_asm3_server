@@ -1,7 +1,11 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-export function envValidate() {
+export function envValidate() { 
+    // set Port
+    if(!process.env.SERVER_PORT)
+        throw new Error('MONGO_URI is not set')
+
     // MongoDB connection
     if (!process.env.MONGO_URI)
         throw new Error('MONGO_URI is not set')
