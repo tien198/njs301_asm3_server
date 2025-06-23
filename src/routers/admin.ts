@@ -19,6 +19,9 @@ router.delete('/products/:id', productIdValidatorMw, AdminCtrl.deleteProduct);
 router.get('/orders', AdminCtrl.getOrders);
 router.get('/orders/:id', AdminCtrl.getOrderById);
 
+// Admin Statistic
+router.get('/user-count', AdminCtrl.getUserCount)
+router.get('/order-count', AdminCtrl.getOrderCount)
 
 
 export default router;
