@@ -8,6 +8,7 @@ export interface IProduct {
     img2: string
     img3: string
     img4: string
+    img5: string
     long_desc: string
     price: string | number
     short_desc: string

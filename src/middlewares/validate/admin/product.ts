@@ -10,18 +10,21 @@ export const productIdValidatorMw = [
 
 export const createProductValidatorMw = [
     body('category')
+        .trim()
         .notEmpty().withMessage('Category is required').bail(),
 
     body('name')
+        .trim()
         .notEmpty().withMessage('Name is required').bail(),
 
     body('price')
+        .trim()
         .notEmpty().withMessage('Price is required').bail(),
 
-    body('img1').optional().isURL().withMessage('img1 must be a valid URL').bail(),
-    body('img2').optional().isURL().withMessage('img2 must be a valid URL').bail(),
-    body('img3').optional().isURL().withMessage('img3 must be a valid URL').bail(),
-    body('img4').optional().isURL().withMessage('img4 must be a valid URL').bail(),
+    body('img1').trim().optional().isURL().withMessage('img1 must be a valid URL').bail(),
+    body('img2').trim().optional().isURL().withMessage('img2 must be a valid URL').bail(),
+    body('img3').trim().optional().isURL().withMessage('img3 must be a valid URL').bail(),
+    body('img4').trim().optional().isURL().withMessage('img4 must be a valid URL').bail(),
 
     validate('Create product failed')
 ];

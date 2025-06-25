@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import AdminCtrl from '../controllers/admin';
-import { isAuthMw } from '../middlewares/identityMw';
+import { isAdmin } from '../middlewares/identityMw';
 import { createProductValidatorMw, productIdValidatorMw, updateProductValidatorMw } from '../middlewares/validate/admin';
+import { multerMw } from '../middlewares/multerMw';
 
 const router = Router();
 
-router.use(isAuthMw)
+router.use(multerMw, isAdmin)
 
 
 // Amdmin Products

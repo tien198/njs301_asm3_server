@@ -32,7 +32,13 @@ async function getProductById(req: Request, res: Response, next: NextFunction) {
 // 📝 POST /products - Tạo mới sản phẩm
 async function createProduct(req: Request, res: Response, next: NextFunction) {
     try {
-        const data: IProduct = req.body;
+        const imgUrlsObj: Record<string, string> = {}
+        const files = req.files as Express.Multer.File[]
+        files.forEach((i, index) => {
+            imgUrlsObj[`img${index + 1}`] = i.path.replace('public', '')
+        })
+
+        const data: IProduct = { ...req.body, ...imgUrlsObj };
         const newProduct = new Product(data);
         const saved = await newProduct.save();
         res.status(201).json(saved);
