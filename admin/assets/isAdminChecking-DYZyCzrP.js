@@ -1,0 +1,1 @@
+import{S as e}from"./serverAPIs-Cnz0yY_0.js";import{m as r,s as n,a as i}from"./index-B7wcUrWo.js";async function m(){const o=r.getState().show,t=await fetch(e.getStatus,{credentials:"include"}),s=await t.json();if(!t.ok)throw o("error",{status:t.status,...s}),{...s,status:t.status};const a=s.user;n.dispatch(i(a))}export{m as isAdmin};
