@@ -31,5 +31,5 @@ export const multerMw = multer({
         else
             callback(null, false)
     },
-}).array('file', 5)
+}).array('files', 5)
 
