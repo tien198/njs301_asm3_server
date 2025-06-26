@@ -1,12 +1,13 @@
 import type { IRes } from "../interfaces/response/response.ts";
 
-export default class ErrorRes<T extends object = object> extends Error implements IRes {
+export default class ErrorRes<T extends object = object> implements IRes {
+    statusText: string = "Internal Server Error";
     status: number = 500;
-    cause?: T = undefined;
+    data?: T = undefined;
 
-    constructor(message: string, status: number, cause?: T) {
-        super(message);
+    constructor(statusText: string, status: number, data?: T) {
+        this.statusText = statusText;
         this.status = status;
-        this.cause = cause;
+        this.data = data;
     }
 }

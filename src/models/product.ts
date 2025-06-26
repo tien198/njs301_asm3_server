@@ -5,6 +5,8 @@ import mongoose, { Schema } from 'mongoose';
 
 
 const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
+    name: { type: String, trim: true , required: true },
+    price: { type: Schema.Types.Number, required: true },
     category: { type: String, required: true },
     img1: { type: String },
     img2: { type: String },
@@ -12,8 +14,6 @@ const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
     img4: { type: String },
     img5: { type: String },
     long_desc: { type: String, trim: true },
-    name: { type: String, trim: true },
-    price: { type: Schema.Types.Number },
     short_desc: { type: String, trim: true }
 }, {
     timestamps: true,

@@ -63,9 +63,9 @@ app.use('/api/shop', shopRouter);
 app.use((error: ErrorRes, req: Request, res: Response, next: NextFunction) => {
     console.log(error)
     res.status(error.status || 500).json({
-        message: error.message,
-        cause: error.cause
-    })
+        statusText: error.statusText || 'Internal Server Error',
+        data: error.data
+    } as ErrorRes)
 })
 
 

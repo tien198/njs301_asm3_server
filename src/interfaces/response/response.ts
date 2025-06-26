@@ -1,4 +1,4 @@
 export interface IRes {
-    message: string
+    statusText: string
     status?: number
 }
