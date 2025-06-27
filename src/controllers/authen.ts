@@ -88,12 +88,18 @@ async function getAuthStatus(req: Request, res: Response, next: NextFunction) {
         if (!req.session.user) {
             throw new ErrorRes('Unauthorize', 401, { message: "Unauthorize, please login to continuon" });
         }
-        res.json({
-            user: new UserDTO(req.session.user as IUser)
-        });
+        const user = new UserDTO(req.session.user as IUser)
+        res.json(user);
     } catch (error) {
         next(error);
     }
+}
+
+
+
+async function isAdmin(req: Request, res: Response) {
+    const user = new UserDTO(req.session.user as IUser)
+    res.json(user)
 }
 
 async function logout(req: Request, res: Response, next: NextFunction) {
@@ -136,5 +142,7 @@ async function resetPassword(req: Request, res: Response, next: NextFunction) {
 };
 
 
-
-export default { login, signup, logout, getAuthStatus, resetPassword }
+const AuthenCtrl = {
+    login, signup, logout, getAuthStatus, isAdmin, resetPassword
+}
+export default AuthenCtrl

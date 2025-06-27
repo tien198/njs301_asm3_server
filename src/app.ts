@@ -53,7 +53,7 @@ app.use(sessionMw())
 
 // routers
 app.use('/api/auth', authenRouter);
-app.use((req, res, next) => { setTimeout(() => next(), 500) })
+app.use((req, res, next) => { setTimeout(() => next(), 700) })
 app.use('/api/admin', adminRouter);
 app.use('/api/shop', shopRouter);
 
