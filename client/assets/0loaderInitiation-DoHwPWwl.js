@@ -1,1 +1,0 @@
-import{y as t,z as i,s}from"./index-BqrMT8t0.js";import{l as a}from"./logoAnimationAcceptDispath-DZ8qXP9U.js";function n(){t.dispatch(i())}function c(r){const e=r.toLocaleLowerCase();return r!==e?e:null}function f(r,e=!0){const o=c(r.request.url);if(o)return s(o);n(),a(e)}export{f as l};

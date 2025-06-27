@@ -85,7 +85,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
 
 async function getAuthStatus(req: Request, res: Response, next: NextFunction) {
     try {
-        if (!req.session.user || req.session.user!.role !== 'admin') {
+        if (!req.session.user) {
             throw new ErrorRes('Unauthorize', 401, { message: "Unauthorize, please login to continuon" });
         }
         res.json({

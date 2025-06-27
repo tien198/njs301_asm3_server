@@ -1,0 +1,1 @@
+import{g as r}from"./getDerfer-Dddx6wTQ.js";import{S as t}from"./serverAPIs-Cnz0yY_0.js";function s(){const e=r(t.getOrders,!0).catch(()=>null),o=r(t.userCount,!0).catch(()=>null),u=r(t.orderCount,!0).catch(()=>null);return{userCount:o,orderCount:u,orders:e}}export{s as loader};

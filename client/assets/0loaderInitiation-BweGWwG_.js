@@ -1,0 +1,1 @@
+import{w as t}from"./index-Dx58Rt-t.js";import{l as i}from"./logoAnimationAcceptDispath-_tykUHjX.js";function n(r){const e=r.toLocaleLowerCase();return r!==e?e:null}function s(r,e=!0){const o=n(r.request.url);if(o)return t(o);i(e)}export{s as l};

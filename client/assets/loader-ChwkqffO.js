@@ -1,1 +1,0 @@
-import{l as o}from"./0loaderInitiation-DoHwPWwl.js";import{g as t}from"./getDefer-D-PQy0Qb.js";import{S as e}from"./serverAPIs-C1khi3Tm.js";import"./index-BqrMT8t0.js";import"./logoAnimationAcceptDispath-DZ8qXP9U.js";function a(r){return o(r),{trendingProducts:t({url:e.products})}}export{a as loader};
