@@ -54,9 +54,15 @@ async function updateProduct(req: Request, res: Response, next: NextFunction) {
         if (!req.params.id)
             throw new ErrorRes<IProdError>('Bad Request', 422, { prodId: 'ProductId param is required' });
 
+        const imgUrlsObj: Record<string, string> = {}
+        const files = req.files as Express.Multer.File[]
+        files.forEach((i, index) => {
+            imgUrlsObj[`img${index + 1}`] = i.path.replace('public', '')
+        })
+
         const updated = await Product.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            { ...req.body, ...imgUrlsObj },
             { new: true, runValidators: true }
         );
         if (!updated)

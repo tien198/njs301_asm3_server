@@ -5,16 +5,16 @@ import mongoose, { Schema } from 'mongoose';
 
 
 const ProductSchema: Schema<IProduct, IProductModel> = new Schema({
-    name: { type: String, trim: true , required: true },
+    name: { type: String, trim: true, required: true },
     price: { type: Schema.Types.Number, required: true },
     category: { type: String, required: true },
+    long_desc: { type: String, trim: true },
+    short_desc: { type: String, trim: true },
     img1: { type: String },
     img2: { type: String },
     img3: { type: String },
     img4: { type: String },
     img5: { type: String },
-    long_desc: { type: String, trim: true },
-    short_desc: { type: String, trim: true }
 }, {
     timestamps: true,
     toJSON: {
