@@ -2,7 +2,7 @@ import type { Types } from "mongoose";
 import { ICartItem } from "../interfaces/user/cartItem";
 
 // Item trong đơn hàng
-export default class CartItemDTO implements Omit<ICartItem, 'productId'> {
+export default class CartItemDTO implements Omit<ICartItem, '_id' | 'productId'> {
     productId: string; // ID sản phẩm
     name: string;
     price: number; // Giá sản phẩm tại thời điểm đặt hàng
@@ -12,6 +12,7 @@ export default class CartItemDTO implements Omit<ICartItem, 'productId'> {
     img2: string
     img3: string
     img4: string
+    img5: string
     long_desc: string
     short_desc: string
     lineTotal: number; // priceInOrderTime * quantity
@@ -26,6 +27,7 @@ export default class CartItemDTO implements Omit<ICartItem, 'productId'> {
         this.img2 = product.img2;
         this.img3 = product.img3;
         this.img4 = product.img4;
+        this.img5 = product.img5;
         this.long_desc = product.long_desc;
         this.short_desc = product.short_desc;
         this.lineTotal = product.lineTotal;
