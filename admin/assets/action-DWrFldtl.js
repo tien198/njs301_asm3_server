@@ -1,0 +1,1 @@
+import{S as a}from"./serverAPIs-BwxFed-N.js";import{m as s}from"./index-BWZcDnsq.js";async function n(t){const r=s.getState().show;try{const o=await fetch(a.products+t.params.id,{method:t.request.method,body:await t.request.formData(),credentials:"include"}),e=await o.json();o.ok||r("error",e),r("inform",e)}catch(o){r("error",o)}}export{n as action};

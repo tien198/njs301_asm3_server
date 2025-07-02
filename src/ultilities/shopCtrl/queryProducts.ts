@@ -4,7 +4,9 @@ import type { IProduct } from "../../interfaces/product"
 
 
 import Product from "../../models/product"
-    
+import ErrorRes from "../../models/errorRes"
+import { ResData } from "../../interfaces/response/error/resData"
+
 /**
  * Query products from the cart
  * @param cart - The cart items
@@ -19,9 +21,6 @@ export async function queryProducts(cart: ICartItem[]) {
     const nnCart = []
 
     for (let i = 0; i < products.length; i++) {
-        if (!products[i])
-            continue
-
         nnProducts.push(products[i]!)
         nnCart.push(cart[i])
     }

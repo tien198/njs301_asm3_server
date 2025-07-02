@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import type { IProduct } from '../../interfaces/product';
 
+import dotenv from 'dotenv'
+dotenv.config()
 import Product from '../../models/product'; // Đường dẫn tuỳ thuộc cấu trúc dự án của bạn
 import ErrorRes from '../../models/errorRes';
 import { IProdError } from '../../interfaces/response/error/prodError';
@@ -15,7 +17,7 @@ async function getAllProducts(req: Request, res: Response, next: NextFunction) {
         const products = await Product.find()
             .select(exceptedFields)
             .lean();
-        res.json(products.map(i=> new ProductDTO(i)));
+        res.json(products.map(i => new ProductDTO(i)));
     } catch (err) {
         next(err)
     }
@@ -44,7 +46,7 @@ async function createProduct(req: Request, res: Response, next: NextFunction) {
         const imgUrlsObj: Record<string, string> = {}
         const files = req.files as Express.Multer.File[]
         files.forEach((i, index) => {
-            imgUrlsObj[`img${index + 1}`] = i.path.replace('public', '')
+            imgUrlsObj[`img${index + 1}`] = process.env.SERVER_URI + i.path.replace('public', '')
         })
 
         const data: IProduct = {
@@ -70,7 +72,7 @@ async function updateProduct(req: Request, res: Response, next: NextFunction) {
         const imgUrlsObj: Record<string, string> = {}
         const files = req.files as Express.Multer.File[]
         files.forEach((i, index) => {
-            imgUrlsObj[`img${index + 1}`] = i.path.replace('public', '')
+            imgUrlsObj[`img${index + 1}`] = process.env.SERVER_URI + i.path.replace('public', '')
         })
 
         const updated = await Product.findByIdAndUpdate(

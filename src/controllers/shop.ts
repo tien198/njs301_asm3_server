@@ -214,8 +214,15 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
 
         const { products, cart } = await queryProducts(items)
         for (let i = 0; i < products.length; i++) {
-            if (products[i]!.availableQuantity < cart[i].quantity)
+            if (!products[i])
+                throw new ErrorRes<ResData>('Failed to create Order', 422, { message: 'Product does not existed' })
+            if (
+                products[i].availableQuantity < cart[i].quantity
+                // if it doesn't have infor about quantity, throw 'Insufficient stock'
+                || products[i]?.totalQuantity === undefined || products[i]?.availableQuantity === undefined || products[i]?.reservedQuantity === undefined
+            )
                 throw new ErrorRes<ResData>('Failed to create Order', 422, { message: 'Insufficient stock: not enough items available in inventory' })
+
         }
 
         const orderItems: IOrderItem[] = products.map((p, index) => ({
@@ -242,7 +249,9 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
                     availableQuantity: -i.quantity,
                     reservedQuantity: +i.quantity
                 }
-            }).exec()
+            })
+                .exec()
+                .catch(error => console.error(error))
         )
 
         // run the folowing in the next tick
@@ -253,7 +262,7 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
         }
         req.session.user!.cart = []
         req.session.save(err => err && console.log(err))
-        User.findByIdAndUpdate(req.session.user!.id, { $set: { cart: [] } }).exec().then(err => err && console.log(err))
+        User.findByIdAndUpdate(req.session.user!.id, { $set: { cart: [] } }).exec().catch(err => err && console.error(err))
 
         res.json({ message: 'Order created successfully' })
     } catch (error) {

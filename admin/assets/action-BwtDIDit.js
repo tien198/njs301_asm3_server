@@ -1,1 +1,0 @@
-import{S as a}from"./serverAPIs-Cnz0yY_0.js";import{m as s}from"./index-DaaKTxDY.js";async function i(r){const t=s.getState().show;try{const o=await fetch(a.products,{method:r.request.method,body:await r.request.formData(),credentials:"include"}),e=await o.json();o.ok||t("error",e),t("inform",e)}catch(o){t("error",o)}}export{i as action};
