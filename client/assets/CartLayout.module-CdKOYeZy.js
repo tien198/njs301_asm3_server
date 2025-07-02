@@ -1,0 +1,1 @@
+import{j as t}from"./index-CzJI12k5.js";function l({className:a,children:s}){return t.jsx("div",{children:t.jsx("div",{className:`bg-zinc-100 max-w-96 flex flex-col gap-8 uppercase p-8 ${a}`,children:s})})}const c="_cart_1k77t_1",o="_total_1k77t_12",r="_rest_1k77t_15",_={"cart-layout":"_cart-layout_1k77t_1",cart:c,total:o,rest:r};export{l as T,_ as c};
