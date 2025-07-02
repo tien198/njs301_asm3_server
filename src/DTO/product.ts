@@ -11,8 +11,9 @@ export default class ProductDTO implements Partial<IProduct> {
     img4: string
     long_desc: string
     short_desc: string
+    availableQuantity: number
 
-    constructor(product: IProduct) {
+    constructor(product: IProduct, quantity?: number) {
         this.id = String(product._id);
         this.name = product.name;
         this.price = +product.price;
@@ -23,5 +24,6 @@ export default class ProductDTO implements Partial<IProduct> {
         this.img4 = product.img4;
         this.long_desc = product.long_desc;
         this.short_desc = product.short_desc;
+        this.availableQuantity = product.availableQuantity;
     }
 }

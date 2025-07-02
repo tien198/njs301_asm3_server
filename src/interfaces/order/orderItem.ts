@@ -2,7 +2,7 @@ import type { Types } from "mongoose";
 import type { IProduct } from "../product/product";
 
 // Item trong đơn hàng
-export interface IOrderItem extends Partial<IProduct> {
+export interface IOrderItem extends Partial<Omit<IProduct, 'totalQuantity' | 'availableQuantity' | 'reservedQuantity'>> {
     productId: Types.ObjectId; // ID sản phẩm
     name: string;
     priceInOrderTime: number; // Giá sản phẩm tại thời điểm đặt hàng

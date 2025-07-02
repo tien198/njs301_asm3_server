@@ -4,7 +4,7 @@ import type { IProduct } from "../../interfaces/product"
 
 
 import Product from "../../models/product"
-
+    
 /**
  * Query products from the cart
  * @param cart - The cart items

@@ -19,6 +19,7 @@ import orderInformMail from '../ultilities/mailTemplates/orderInfrom.js';
 import CartItemDTO from '../DTO/cartItem.js';
 import ProductDTO from '../DTO/product.js';
 import OrderDTO from '../DTO/order.js';
+import { ResData } from '../interfaces/response/error/resData.js';
 
 
 async function getCountProducts(req: Request, res: Response, next: NextFunction) {
@@ -30,6 +31,8 @@ async function getCountProducts(req: Request, res: Response, next: NextFunction)
     }
 }
 
+const exceptedFields = '-createdAt -updatedAt -totalQuantity -reservedQuantity -__v'
+
 async function getProducts(req: Request, res: Response, next: NextFunction) {
     try {
         const page = +req.query.page! || 1;
@@ -38,7 +41,7 @@ async function getProducts(req: Request, res: Response, next: NextFunction) {
 
         const products = await Product.find()
             .skip(skip).limit(limit).sort({ createdAt: -1 })
-            .select('-__v')
+            .select(exceptedFields)
             .lean()
 
         // lean product convert _id to id (don't let client know server use Mongoose)
@@ -53,7 +56,7 @@ async function getProducts(req: Request, res: Response, next: NextFunction) {
 async function getProductById(req: Request, res: Response, next: NextFunction) {
     try {
         const product = await Product.findById(req.params.id)
-            .select('-__v')
+            .select(exceptedFields)
             .lean()
 
         if (!product) {
@@ -82,7 +85,7 @@ async function getProductByCategory(req: Request, res: Response, next: NextFunct
 
         const products = await Product.find({ category })
             .skip(skip).limit(limit).sort({ createdAt: -1 })
-            .select('-__v')
+            .select(exceptedFields)
             .lean()
 
         const productsDTO = products.map(product => new ProductDTO(product))
@@ -210,6 +213,11 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
         const { shippingTracking, items } = req.body as OrderBody
 
         const { products, cart } = await queryProducts(items)
+        for (let i = 0; i < products.length; i++) {
+            if (products[i]!.availableQuantity < cart[i].quantity)
+                throw new ErrorRes<ResData>('Failed to create Order', 422, { message: 'Insufficient stock: not enough items available in inventory' })
+        }
+
         const orderItems: IOrderItem[] = products.map((p, index) => ({
             productId: p._id,
             name: p.name,
@@ -228,6 +236,14 @@ async function createOrder(req: Request, res: Response, next: NextFunction) {
             shippingTracking,
         })
 
+        orderItems.forEach(i =>
+            Product.findByIdAndUpdate(String(i.productId), {
+                $inc: {
+                    availableQuantity: -i.quantity,
+                    reservedQuantity: +i.quantity
+                }
+            }).exec()
+        )
 
         // run the folowing in the next tick
         MailTransporter.sendHtmlMail(shippingTracking.email, 'Order Confirmation', orderInformMail(createdDoc))

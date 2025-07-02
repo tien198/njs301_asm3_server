@@ -1,15 +1,21 @@
 import type { NextFunction, Request, Response } from 'express';
-import Product from '../../models/product'; // Đường dẫn tuỳ thuộc cấu trúc dự án của bạn
 import type { IProduct } from '../../interfaces/product';
+
+import Product from '../../models/product'; // Đường dẫn tuỳ thuộc cấu trúc dự án của bạn
 import ErrorRes from '../../models/errorRes';
 import { IProdError } from '../../interfaces/response/error/prodError';
+import ProductDTO from '../../DTO/product';
 
+
+const exceptedFields = '-__v'
 
 // 📘 GET /products - Lấy tất cả sản phẩm
 async function getAllProducts(req: Request, res: Response, next: NextFunction) {
     try {
-        const products = await Product.find();
-        res.json(products);
+        const products = await Product.find()
+            .select(exceptedFields)
+            .lean();
+        res.json(products.map(i=> new ProductDTO(i)));
     } catch (err) {
         next(err)
     }
@@ -19,10 +25,12 @@ async function getAllProducts(req: Request, res: Response, next: NextFunction) {
 // 📘 GET /products/:id - Lấy sản phẩm theo ID
 async function getProductById(req: Request, res: Response, next: NextFunction) {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id)
+            .select(exceptedFields)
+            .lean();
         if (!product)
             throw new ErrorRes<IProdError>('Not Found', 404, { notFound: `Not found product with id: "${req.params.id}"` });
-        res.json(product);
+        res.json(new ProductDTO(product));
     } catch (err) {
         next(err)
     }
@@ -32,13 +40,18 @@ async function getProductById(req: Request, res: Response, next: NextFunction) {
 // 📝 POST /products - Tạo mới sản phẩm
 async function createProduct(req: Request, res: Response, next: NextFunction) {
     try {
+        const body = req.body as IProduct
         const imgUrlsObj: Record<string, string> = {}
         const files = req.files as Express.Multer.File[]
         files.forEach((i, index) => {
             imgUrlsObj[`img${index + 1}`] = i.path.replace('public', '')
         })
 
-        const data: IProduct = { ...req.body, ...imgUrlsObj };
+        const data: IProduct = {
+            ...req.body,
+            availableQuantity: body.totalQuantity,
+            ...imgUrlsObj
+        };
         const newProduct = new Product(data);
         const saved = await newProduct.save();
         res.status(201).json(saved);
