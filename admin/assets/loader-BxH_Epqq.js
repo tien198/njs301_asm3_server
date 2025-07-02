@@ -1,0 +1,1 @@
+import{g as t}from"./getDerfer-BEwvwnwc.js";import{S as d}from"./serverAPIs-BYAPJxeP.js";function n(r){const o=r.params.id;return{order:t(d.orders+"/"+o,!0).catch(e=>console.error(e))}}export{n as loader};

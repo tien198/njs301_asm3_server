@@ -11,7 +11,7 @@ async function getOrders(req: Request, res: Response, next: NextFunction) {
         const skip = (page - 1) * limit
 
         const orders = await Order.find()
-            .select('userId userName items shippingTracking.phone shippingTracking.address shippingTracking.status status totalPrice')
+            .select('userId userName items shippingTracking status totalPrice')
             .skip(skip).limit(limit)
             .sort({ createdAt: -1 }) // Sort by creation date, newest first
             .lean()
@@ -25,7 +25,7 @@ async function getOrders(req: Request, res: Response, next: NextFunction) {
 async function getOrderById(req: Request, res: Response, next: NextFunction) {
     try {
         const order = await Order.findById(req.params.id)
-            .select('userId userName items shippingTracking.phone shippingTracking.address shippingTracking.status status totalPrice')
+            .select('userId userName items shippingTracking status totalPrice')
             .lean()
         const orderDTO = order ? new OrderDTO(order) : null
         res.json(orderDTO)

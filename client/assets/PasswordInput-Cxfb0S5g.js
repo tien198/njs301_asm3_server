@@ -1,0 +1,1 @@
+import{j as a}from"./index-CqyRaQI7.js";const s={"authen-form":"_authen-form_dl6tc_1"};function o({value:t,onChangeVal:n}){return a.jsx("input",{type:"text",placeholder:"Email",name:"email",value:t,onChange:n})}function r({value:t,onChangeVal:n}){return a.jsx("input",{type:"password",placeholder:"Password",value:t,onChange:n})}export{o as E,r as P,s as c};
