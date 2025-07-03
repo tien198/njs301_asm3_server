@@ -21,12 +21,13 @@ app.use('/admin', express.static('admin'));
 
 
 // Set routing for clientApp and adminApp 
+app.get(/^\/admin\/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'admin', 'index.html'));
+});
+
 app.get(/^(?!\/api).*/, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 
-});
-app.get(/^\/admin\/.*/, (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'admin', 'index.html'));
 });
 
 
