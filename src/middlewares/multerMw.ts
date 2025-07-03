@@ -4,18 +4,20 @@ import multer from 'multer'
 
 
 function diskStorage() {
-    const now = Date.now()
-    const dt = new Date(now)
-    const storePath = path.join('public', String(dt.getFullYear()), String(dt.getMonth()), String(dt.getDate()))
 
     return multer.diskStorage({
         destination(req, file, callback) {
+            const now = Date.now()
+            const dt = new Date(now)
+            const storePath = path.join('public', String(dt.getFullYear()), String(dt.getMonth()), String(dt.getDate()))
+
+            file.originalname = now + '-' + file.originalname
             if (!fs.existsSync(storePath))
                 fs.mkdirSync(storePath, { recursive: true })
             callback(null, storePath)
         },
         filename(req, file, callback) {
-            callback(null, now + '-' + file.originalname)
+            callback(null, file.originalname)
         },
     })
 }
