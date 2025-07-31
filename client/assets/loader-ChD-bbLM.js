@@ -1,0 +1,1 @@
+import{s as t}from"./index-DdPWhHOj.js";import{g as e}from"./getDefer-D-PQy0Qb.js";import{S as o}from"./serverAPIs-ClfebQWR.js";function m(){const r=t.getState().cart.items;return r.length>0?{cart:Promise.resolve(r)}:{cart:e({url:o.cart,includeCookie:!0})}}export{m as loader};

@@ -1,1 +1,0 @@
-import{s as t,c as e,r,A as o}from"./index-3f_OoeXO.js";import{S as a}from"./serverAPIs-BYAPJxeP.js";async function i(){return await fetch(a.logout,{method:"POST",credentials:"include"}),t.dispatch(e()),r(o.Login)}export{i as action};

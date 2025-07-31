@@ -1,0 +1,1 @@
+import{s as t,c as e,r,A as o}from"./index-flhnmb9J.js";import{S as a}from"./serverAPIs-B1Fb_ixh.js";async function i(){return await fetch(a.logout,{method:"POST",credentials:"include"}),t.dispatch(e()),r(o.Login)}export{i as action};
