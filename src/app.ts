@@ -37,7 +37,7 @@ app.use(
     cors({
         origin(requestOrigin, callback) {
             if (
-                whiteList.indexOf(requestOrigin) !== -1
+                whiteList.includes(requestOrigin)
                 // || !requestOrigin
             )
                 callback(null, true)
