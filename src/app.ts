@@ -15,9 +15,9 @@ import adminRouter from './routers/admin';
 
 
 const app = express()
-app.use(express.static('public'));
-app.use(express.static('client'));
-app.use('/admin', express.static('admin'));
+// app.use(express.static('public'));
+// app.use(express.static('client'));
+// app.use('/admin', express.static('admin'));
 
 
 // Set routing for clientApp and adminApp 
