@@ -26,8 +26,8 @@ export default function sessionMw() {
         store: store,
         cookie: {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none'
+            // secure: true,
+            // sameSite: 'none'
         }
     })
 }
