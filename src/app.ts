@@ -46,13 +46,13 @@ app.use(
         },
         credentials: true,
     }),
-    // helmet.referrerPolicy({
-    //     policy:'strict-origin-when-cross-origin'
-    // }),
-    // helmet({
-    //     crossOriginResourcePolicy: { policy: 'cross-origin' },
-    //     crossOriginEmbedderPolicy: false
-    // }),
+    helmet.referrerPolicy({
+        policy: 'strict-origin-when-cross-origin'
+    }),
+    helmet({
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+        crossOriginEmbedderPolicy: false
+    }),
 
 )
 
