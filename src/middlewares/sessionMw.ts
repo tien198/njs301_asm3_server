@@ -24,10 +24,10 @@ export default function sessionMw() {
         resave: true,
         saveUninitialized: false,
         store: store,
-        cookie: {
-            httpOnly: true,
-            secure: true,
-            // sameSite: 'strict'
-        }
+        // cookie: {
+        //     httpOnly: true,
+        //     secure: true,
+        //     // sameSite: 'strict'
+        // }
     })
 }
