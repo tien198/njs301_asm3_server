@@ -43,7 +43,10 @@ app.use(
         },
         credentials: true,
     }),
-    helmet(),
+    helmet({
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+        crossOriginEmbedderPolicy: false
+    }),
 
 )
 
