@@ -25,6 +25,8 @@ export default function sessionMw() {
         saveUninitialized: false,
         store: store,
         cookie: {
+            httpOnly:true,
+            secure:true,
             sameSite: 'none'
         }
     })
