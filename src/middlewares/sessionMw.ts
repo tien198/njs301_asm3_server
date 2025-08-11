@@ -24,6 +24,8 @@ export default function sessionMw() {
         resave: true,
         saveUninitialized: false,
         store: store,
-
+        cookie: {
+            sameSite: 'none'
+        }
     })
 }
