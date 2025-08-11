@@ -20,6 +20,31 @@ app.use(express.static('client'));
 app.use('/admin', express.static('admin'));
 
 
+const whiteList = [process.env.CLIENT_APP_URL, process.env.ADMIN_APP_URL, process.env.SAME_ORIGIN]
+// library middlewares
+app.use(
+    cors({
+        origin(requestOrigin, callback) {
+            if (
+                whiteList.indexOf(requestOrigin) !== -1
+                // || !requestOrigin
+            )
+                callback(null, true)
+            else
+                callback(new Error('Not allowed by CORS'))
+        },
+        credentials: true,
+    }),
+    // helmet.referrerPolicy({
+    //     policy:'strict-origin-when-cross-origin'
+    // }),
+    // helmet({
+    //     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    //     crossOriginEmbedderPolicy: false
+    // }),
+
+)
+
 // Set routing for clientApp and adminApp 
 app.get(/^\/admin\/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'admin', 'index.html'));
@@ -31,27 +56,6 @@ app.get(/^(?!\/api).*/, (req, res) => {
 });
 
 
-const whiteList = [process.env.CLIENT_APP_URL, process.env.ADMIN_APP_URL, process.env.SAME_ORIGIN]
-// library middlewares
-app.use(
-    cors({
-        origin(requestOrigin, callback) {
-            if (whiteList.indexOf(requestOrigin) !== -1 || !requestOrigin)
-                callback(null, true)
-            else
-                callback(new Error('Not allowed by CORS'))
-        },
-        credentials: true,
-    }),
-    // helmet.referrerPolicy({
-    //     policy:'unsafe-url'
-    // }),
-    // helmet({
-    //     crossOriginResourcePolicy: { policy: 'cross-origin' },
-    //     crossOriginEmbedderPolicy: false
-    // }),
-
-)
 
 // custom middlewares
 app.use(sessionMw())
